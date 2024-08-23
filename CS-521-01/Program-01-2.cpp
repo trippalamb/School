@@ -1,7 +1,11 @@
-/* Lecture Example : example-01-1.cpp
- * This program prompts the user to enter a radius (assumed to be in cm)
- * computes the area of the corresponding circle, then prints the
- * resulting area to the console.
+/* Lecture Example : Program-01-1.cpp
+ * (Tripp) Milton Lamb
+ * 2024 Aug 23rd
+ * CS 521-01
+ * Made using Windows in VS Code IDE
+ * This program prompts the user to enter a series of product and
+ * purchase information. And then creates an invoice to print 
+ * for the user.
 */
 #include <iostream>
 #include <iomanip>

@@ -1,4 +1,4 @@
-/* Lecture Example : Program-01-1.cpp
+/* Lecture Example : Program-03-1.cpp
  * (Tripp) Milton Lamb
  * 2024 Aug 25th
  * CS 521-01
@@ -22,18 +22,18 @@ void print_stars(char letter, int n){
 
 int main() {
 
-    const int MAXTESTS = 100;  // maximum number of tests we can store
-    int testList[MAXTESTS];  // the list storing up to 100 test grades entered
+    const int MAXTESTS = 100; // maximum number of tests we can store
+    int testList[MAXTESTS];   // the list storing up to 100 test grades entered
 
-    int count = 0;           // a counter keeping track of how many tests we have read in
-    int nextTest = 0;        // next test read in, to prime the pump
-    int n_A = 0;
-    int n_B = 0;
-    int n_C = 0;
-    int n_D = 0;
-    int n_F = 0;
+    int count = 0;      // a counter keeping track of how many tests we have read in
+    int nextTest = 0;   // next test read in, to prime the pump
+    int n_A = 0;        // the number of test grades that are considered an A
+    int n_B = 0;        // the number of test grades that are considered an B
+    int n_C = 0;        // the number of test grades that are considered an C
+    int n_D = 0;        // the number of test grades that are considered an D
+    int n_F = 0;        // the number of test grades that are considered an E
 
-    double testSum = 0.0;        // sum of all the tests entered
+    double testSum = 0.0;     // sum of all the tests entered
     double average = 0.0;     // average of all the test grades
 
     while (count < MAXTESTS) { // Answer: because you'd encounter a index overflow

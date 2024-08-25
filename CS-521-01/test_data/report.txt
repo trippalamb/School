@@ -1,0 +1,11 @@
+REPORT ON INPUT FILE: .\test_data\dnain.txt
+
+               FRAGMENT                             GCRatio    Other messages
+----------------------------------------------------------------------------------------------
+AAAGCCTATCGTTAAACCCGGTATATATCGGTATA               :   0.37  Fragment within the range 35% - 65%
+AAATTAGTTAAACAATGTATATATCGGTATAATCGTTATA          :   0.20
+GCATCGGTATAAAAGCCTATCGTTAAACCCGGTATATATCGGTATACCC :   0.43  Fragment within the range 35% - 65%
+TTA                                               :   Fragment is too short to process
+---------------------------------------- SUMMARY -----------------------------------------------
+There were 4 fragments found.
+1 fragments(s) were not long enough to process.

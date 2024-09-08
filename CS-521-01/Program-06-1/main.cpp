@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
 
 #include "Player.h"
 
@@ -23,6 +24,7 @@ int main() {
 
     int i = 0;
     int players_length = 0;
+    bool go_on = true;
     Player players[MAX_PLAYERS];
 
     string fn_in = "";  // the input dna file name, user input
@@ -60,15 +62,20 @@ int main() {
     file_out << "    PLAYER NAME      :    AVERAGE    OPS" << endl;
     file_out << "---------------------------------------------" << endl;
 
-    do {
+    while(go_on) {
         players[i] = Player(file_in);
+        go_on = players[i].is_initialized();
+        if(go_on){
+            file_out << players[i].to_string() << endl;
+        }
         i++;
-    } while(players[i].is_initialized());
+    } ;
 
     players_length = i - 1;
 
+    file_out << endl << endl;
     file_out << "BASEBALL TEAM REPORT --- " << players_length << " PLAYERS FOUND IN FILE" << endl;
-    file_out << "OVERALL BATTING AVERAGE is " << calc_batting_average(players, players_length) << endl;
+    file_out << "OVERALL BATTING AVERAGE is " << fixed << setprecision(3) << calc_batting_average(players, players_length) << endl;
 
     cout << "The output is in: " << fn_out << endl << endl;
     cout << "End of Program" << endl;

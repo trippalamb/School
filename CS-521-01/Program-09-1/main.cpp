@@ -1,10 +1,11 @@
 /* Lecture Example : Program-09-1.cpp
  * (Tripp) Milton Lamb
- * 2024 Sep 8th
+ * 2024 Sep 14th
  * CS 521-01
  * Made using Windows in VS Code IDE
- * This program reads in a list of baseball player primary stats, then calculates
- * several secondary stats, and prints a summary of the information.
+ * This program reads in a list of baseball player primary stats into a linked list, 
+ * then calculates several secondary stats, and prints a summary of the information
+ * forwards and backwards.
 */
 
 #include <iostream>
@@ -16,10 +17,9 @@
 
 using namespace std;
 
-
 int main() {
 
-    PlayerList players; // holds the information of all players in the input file
+    PlayerList* players; // holds the information of all players in the input file
 
     string fn_in = "";  // the input dna file name, user input
     string fn_out = ""; // the output report file name, user input
@@ -34,7 +34,6 @@ int main() {
 
     cout << "Enter the name of the input data file: " ;
     cin >> fn_in;  // get the input file name
-
     file_in.open(fn_in);   // Open the dna file
     if (!file_in.is_open()) {
         cerr << "Failed to open the input file." << endl;
@@ -51,17 +50,11 @@ int main() {
         return 1;
     }
 
-    cout << "Reading the data from: " << fn_in << endl;
+    cout << endl << "Reading the data from: " << fn_in << endl;
 
-    file_out << "    PLAYER NAME      :    AVERAGE    OPS" << endl;
-    file_out << "---------------------------------------------" << endl;
 
-    players = PlayerList(file_in);
-    file_out << players.to_string();
-
-    file_out << endl << endl;
-    file_out << "BASEBALL TEAM REPORT --- " << players.get_size() << " PLAYERS FOUND IN FILE" << endl;
-    file_out << "OVERALL BATTING AVERAGE is " << fixed << setprecision(3) << players.calc_batting_average() << endl;
+    players = new PlayerList(file_in);
+    players->build_report(file_out);
 
     cout << "The output is in: " << fn_out << endl << endl;
     cout << "End of Program" << endl;

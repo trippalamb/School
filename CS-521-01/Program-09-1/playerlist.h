@@ -4,13 +4,18 @@
 
 #include <stdexcept>
 #include <vector>
+#include <iomanip>
+#include <iostream>
+
 #include "Player.h"
 
 struct Node {
-    Player* data;
-    Node* next;
-    Node* prev;
+private:
+    Player* data; // holds the player data
+    Node* next;   // points to the next node if there is one
+    Node* prev;   // points to the previous node if there is one
 
+public:
     Node();
     Node(Player* item);
     void set_prev(Node* node);
@@ -28,10 +33,10 @@ struct Node {
 class PlayerList {
 private:
 
-    Node* head;
-    Node* tail;
-    Node* current;
-    size_t size;
+    Node* head;     // points to the first node in the list
+    Node* tail;     // points to the last node in the list
+    Node* current;  // points to the current node in the list
+    size_t size;    // the current length of the list
 
     void add_alphabetical_1(Player* item);
     void add_alphabetical_2plus(Player* item);
@@ -66,6 +71,7 @@ public:
     void remove_current(bool destroy = false);
     void remove_all(bool destroy = false);
     string to_string(bool reverse = false);
+    void build_report(ostream& stream);
 
 };
 

@@ -34,7 +34,9 @@ private:
     double ops;              // [%] on base plus slugging
 
     void set_sort_name();    // sets the sort name from first and last name
+
 public:
+
     Player();
     Player(istream& stream);
     Player(const std::string names[2], const int stats[STAT_LENGTH]);

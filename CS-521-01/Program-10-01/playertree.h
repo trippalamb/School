@@ -23,7 +23,7 @@ public:
     void set_right(Node* node);
     Node* get_left();
     Node* get_right();
-    //Player* get_data();
+    Player* get_data();
     bool has_left();
     bool has_right();
     void clean();

@@ -75,9 +75,9 @@ Node* Node::get_right(){
 /**
  * Standard getter for `data`.
  */
-// Player* Node::get_data(){
-//     return this->data;
-// }
+Player* Node::get_data(){
+    return this->data;
+}
 
 /**
  * returns `true` if there is a leftious node.
@@ -290,7 +290,7 @@ Player* PlayerTree::get_left(){
  * returns a reference to the current player object
  */
 Player* PlayerTree::get_current(){
-    return this->current->data;
+    return this->current->get_data();
 }
 
 /**
@@ -366,7 +366,7 @@ string PlayerTree::to_string_inOrder(){
         str += this->to_string_inOrder();
     }
 
-    str += current->data->to_string() + "\n";
+    str += current->get_data()->to_string() + "\n";
 
     if(current->has_right()){
         this->current = current->get_right();
@@ -386,7 +386,7 @@ string PlayerTree::to_string_reverseOrder(){
         str += this->to_string_reverseOrder();
     }
 
-    str += current->data->to_string() + "\n";
+    str += current->get_data()->to_string() + "\n";
 
     if(current->has_left()){
         this->current = current->get_left();

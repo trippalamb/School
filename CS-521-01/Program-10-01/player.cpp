@@ -44,9 +44,9 @@ Player::Player():
 Player::Player(istream& stream): Player() {
 
 
-    string line;
-    string names[2];
-    int stats[STAT_LENGTH];
+    string line; //individual line from input
+    string names[2]; // array to hold first and last name
+    int stats[STAT_LENGTH]; // individual primary stats from input, see header information for further details
 
     getline(stream, line);
 
@@ -139,7 +139,7 @@ void Player::set_all(const string names[2], const int stats[STAT_LENGTH]){
  */
 void Player::calc_statistics(){
 
-    double n_hits = this->n_singles + this->n_doubles + this->n_triples + this->n_home_runs;
+    double n_hits = this->n_singles + this->n_doubles + this->n_triples + this->n_home_runs; //total number of hits
 
     this->batting_average = n_hits / double(this->n_at_bats);
 
@@ -161,7 +161,7 @@ void Player::calc_statistics(){
  */
 string Player::to_string(){
 
-    ostringstream oss;
+    ostringstream oss; // temporary output stream
 
     oss << fixed << setprecision(3);
     oss << setw(20) << right << (this->name_last + ", " + this->name_first) << " : ";

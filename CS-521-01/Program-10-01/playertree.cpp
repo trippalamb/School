@@ -134,8 +134,8 @@ PlayerTree::PlayerTree():
  */
 PlayerTree::PlayerTree(istream& stream): PlayerTree(){
 
-    Player* player = nullptr;
-    bool go_on = true;
+    Player* player = nullptr;  //pointer to relevant player data
+    bool go_on = true; //determines when while loop will end
 
     while(go_on) {
         player = new Player(stream);
@@ -174,7 +174,7 @@ void PlayerTree::add_alphabetical(Player* item){
  */
 double PlayerTree::calc_batting_average(){
 
-    double sum = 0.0;
+    double sum = 0.0; //holds the sum of individual batting averages
     if(this->is_empty()){ return 0.0;}
 
     this->move_to_root();
@@ -189,8 +189,8 @@ double PlayerTree::calc_batting_average(){
  */
 double PlayerTree::calc_batting_average_inner(){
     
-    Player* player = nullptr;
-    double sum = 0.0;
+    Player* player = nullptr; //pointer to relevant player data
+    double sum = 0.0; //holds the sum of individual batting averages
 
     Node* current = this->current;
     player = this->get_current();
@@ -340,8 +340,8 @@ void PlayerTree::remove_all(bool destroy){
  */
 string PlayerTree::to_string(bool reverse){
 
-    Player* player = nullptr;
-    string s = "";
+    Player* player = nullptr; //pointer to relevant player data
+    string s = ""; //holds the eventual output string
 
     if(this->is_empty()){return "\n";}
 
@@ -357,9 +357,9 @@ string PlayerTree::to_string(bool reverse){
 }
 
 string PlayerTree::to_string_inOrder(){
-    string str = "";
-    Player* player = nullptr;
-    Node* current = this->current;
+    string str = ""; //holds the eventual output string
+    Player* player = nullptr;  //pointer to relevant player data
+    Node* current = this->current;  //saves pointer to current node
 
     if(current->has_left()){
         this->current = current->get_left();
@@ -377,9 +377,9 @@ string PlayerTree::to_string_inOrder(){
 }
 
 string PlayerTree::to_string_reverseOrder(){
-    string str = "";
-    Player* player = nullptr;
-    Node* current = this->current;
+    string str = ""; //holds the eventual output string
+    Player* player = nullptr;  //pointer to relevant player data
+    Node* current = this->current;  //saves pointer to current node
 
     if(current->has_right()){
         this->current = current->get_right();

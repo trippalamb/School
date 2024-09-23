@@ -30,6 +30,7 @@ int main() {
     ifstream file_in;  // the input file from `fn_in`
     ofstream file_out; // the output file from `fn_out`
 
+    cout << "STILL MUST UNHARDCODE PATHS AND TEST"<<endl;
     cout << "Welcome to the player statistics calculator test program." << endl << endl;
 
     cout << "Enter the name of the input data file: " ;
@@ -56,6 +57,7 @@ int main() {
 
     players = new PlayerTree(file_in);
     players->build_report(file_out);
+    players->remove_all();
 
     cout << "The output is in: " << fn_out << endl << endl;
     cout << "End of Program" << endl;

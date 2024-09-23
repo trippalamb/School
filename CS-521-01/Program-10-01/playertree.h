@@ -23,6 +23,7 @@ public:
     void set_right(Node* node);
     Node* get_left();
     Node* get_right();
+    Node* search(string name, Node* parent);
     Player* get_data();
     bool has_left();
     bool has_right();
@@ -50,6 +51,7 @@ private:
     Player* get_right();
     Player* get_left();
     Player* get_current();
+    void remove_all_inner(bool destroy = false);
 
 public:
     PlayerTree();
@@ -67,6 +69,8 @@ public:
 
     void remove_current(bool destroy = false);
     void remove_all(bool destroy = false);
+    bool remove_by_name(string name_first, string name_last, bool destroy=false);
+    void clear();
     string to_string(bool reverse = false);
     void build_report(ostream& stream);
 

@@ -93,6 +93,23 @@ bool Node::has_right(){
     return this->right != nullptr;
 }
 
+Node* Node::search(string name, Node* parent){
+
+    if(name == this->get_data()->get_sort_name()){
+        return this;
+    }
+    else if (name < this->get_data()->get_sort_name() ){
+        parent = this;
+        if(this->has_left()){ this->get_left()->search(name, parent); }
+        else{ return nullptr; }
+    }
+    else{
+        parent = this;
+        if(this->has_right()){ this->get_left()->search(name, parent); }
+        else { return nullptr; }
+    }
+}
+
 /**
  * cleans out the data from node without deletion.
  */
@@ -322,13 +339,66 @@ void PlayerTree::remove_all(bool destroy){
     if(this->is_empty()){return;}
 
     this->move_to_root();
-    this->remove_current(destroy);
 
-    while(this->has_right()){
-        this->move_to_right();
+}
+
+/**
+ * inner helper method for `remove_all` nodes from the list
+ * 
+ * @param destroy `true` means that the data in the nodes will be destroyed. 
+ *                `false` means that the references will be removed, but data will remain
+ *                defaults to `false`
+ */
+void PlayerTree::remove_all_inner(bool destroy){
+    
+    Node* current = this->current;
+
+    if(current->has_left()){
+        this->current = current->get_left();
         this->remove_current(destroy);
     }
 
+
+    if(current->has_right()){
+        this->current = current->get_right();
+        this->remove_current(destroy);
+    }
+
+    this->current = current;
+    this->remove_current(destroy);
+
+}
+
+bool PlayerTree::remove_by_name(string name_first, string name_last, bool destroy){
+
+    string name_sort = name_last + name_first; //converts first and last name to the node key
+    Node* parent = nullptr; //holds a pointer to the parent of the returned node
+    Node* to_move = nullptr; //holds a pointer to the child of current to move
+    bool replace_left = false; //tells which branch of parent to replace
+    this->current = this->root;
+    this->current = this->current->search(name_sort, parent);
+
+    if(this->current == nullptr){
+        return false;
+    }
+    else{
+
+        replace_left = parent->get_left() == this->current;
+
+        if     (this->has_left() ){ to_move = this->current->get_left(); }
+        else if(this->has_right()){ to_move = this->current->get_left(); }
+
+        if(replace_left){parent->set_left(to_move);}
+        else{parent->set_right(to_move);}
+
+        this->remove_current(destroy);
+        this->current = parent;
+    }
+
+}
+
+void PlayerTree::clear(){
+    this->remove_all(true);
 }
 
 /**
@@ -422,5 +492,5 @@ void PlayerTree::build_report(ostream& stream){
  */
 PlayerTree::~PlayerTree()
 {
-    this->remove_all(true);
+    this->clear();
 }

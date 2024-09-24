@@ -57,7 +57,12 @@ int main() {
 
     players = new PlayerTree(file_in);
     players->build_report(file_out);
-    players->remove_all();
+
+    players->remove_by_name("hank", "aaron", true);
+
+    players->build_report(file_out);
+
+    players->clear();
 
     cout << "The output is in: " << fn_out << endl << endl;
     cout << "End of Program" << endl;

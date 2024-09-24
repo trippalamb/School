@@ -93,6 +93,13 @@ bool Node::has_right(){
     return this->right != nullptr;
 }
 
+/**
+ * returns `true` if there is only a single child node.
+ */
+bool Node::has_only_one_child(){
+    return this->has_left() != this->has_right();
+}
+
 Node* Node::search(string name, Node* parent){
 
     if(name == this->get_data()->get_sort_name()){
@@ -100,15 +107,39 @@ Node* Node::search(string name, Node* parent){
     }
     else if (name < this->get_data()->get_sort_name() ){
         parent = this;
-        if(this->has_left()){ this->get_left()->search(name, parent); }
+        if(this->has_left()){ this->get_left()->search(name, parent); return this;}
         else{ return nullptr; }
     }
     else{
         parent = this;
-        if(this->has_right()){ this->get_left()->search(name, parent); }
+        if(this->has_right()){ this->get_left()->search(name, parent); return this;}
         else { return nullptr; }
     }
 }
+
+void Node::replace_child(Node* old_child, Node* new_child) {
+    if (this->left == old_child) {
+        this->left = new_child;
+    } else if (this->right == old_child) {
+        this->right = new_child;
+    }
+}
+
+Node* Node::get_single_child() {
+    return (this->left != nullptr) ? this->left : this->right;
+}
+
+bool Node::is_leaf() {
+    return (this->left == nullptr && this->right == nullptr);
+}
+
+Node* Node::find_min() {
+    if (left == nullptr) {
+        return this;
+    }
+    return left->find_min();
+}
+
 
 /**
  * cleans out the data from node without deletion.
@@ -324,6 +355,7 @@ void PlayerTree::remove_current(bool destroy){
     else{
         this->current->clean();
     }
+    delete this->current;
     this->size--;
 }
 
@@ -339,7 +371,7 @@ void PlayerTree::remove_all(bool destroy){
     if(this->is_empty()){return;}
 
     this->move_to_root();
-
+    this->remove_all_inner(destroy);
 }
 
 /**
@@ -355,13 +387,13 @@ void PlayerTree::remove_all_inner(bool destroy){
 
     if(current->has_left()){
         this->current = current->get_left();
-        this->remove_current(destroy);
+        this->remove_all_inner(destroy);
     }
 
 
     if(current->has_right()){
         this->current = current->get_right();
-        this->remove_current(destroy);
+        this->remove_all_inner(destroy);
     }
 
     this->current = current;
@@ -371,30 +403,66 @@ void PlayerTree::remove_all_inner(bool destroy){
 
 bool PlayerTree::remove_by_name(string name_first, string name_last, bool destroy){
 
-    string name_sort = name_last + name_first; //converts first and last name to the node key
+    string name_sort = build_sort_name(name_first, name_last); //converts first and last name to the node key
     Node* parent = nullptr; //holds a pointer to the parent of the returned node
     Node* to_move = nullptr; //holds a pointer to the child of current to move
+    Node* to_remove = nullptr; //holds a pointer to the child intended to be removed
     bool replace_left = false; //tells which branch of parent to replace
-    this->current = this->root;
-    this->current = this->current->search(name_sort, parent);
 
-    if(this->current == nullptr){
+    this->current = this->root;
+    to_remove = this->current->search(name_sort, parent);
+
+    if(to_remove == nullptr){
         return false;
     }
-    else{
-
-        replace_left = parent->get_left() == this->current;
-
-        if     (this->has_left() ){ to_move = this->current->get_left(); }
-        else if(this->has_right()){ to_move = this->current->get_left(); }
-
-        if(replace_left){parent->set_left(to_move);}
-        else{parent->set_right(to_move);}
-
-        this->remove_current(destroy);
-        this->current = parent;
+    else if (to_remove->is_leaf()) {
+        this->remove_leaf_node(to_remove, parent);
+    }
+    else if (to_remove->has_only_one_child()) {
+        this->remove_node_with_one_child(to_remove, parent);
+    }
+    else {
+        this->remove_node_with_two_children(to_remove, parent);
     }
 
+    this->current = to_remove;
+    this->remove_current(destroy);
+    return true;
+
+}
+
+void PlayerTree::remove_leaf_node(Node* to_remove, Node* parent) {
+    if (parent == nullptr) {
+        this->root = nullptr;
+    } else {
+        parent->replace_child(to_remove, nullptr);
+    }
+}
+
+void PlayerTree::remove_node_with_one_child(Node* to_remove, Node* parent) {
+    Node* child = to_remove->get_single_child(); //holds pointer to single child of the node to be removed
+    if (parent == nullptr) {
+        this->root = child;
+    } else {
+        parent->replace_child(to_remove, child);
+    }
+}
+
+void PlayerTree::remove_node_with_two_children(Node* to_remove, Node* parent) {
+
+    Node* node_left = to_remove->get_left();
+    Node* node_right = to_remove->get_right();
+    Node* node_min = node_right->find_min();
+
+    if(parent == nullptr){
+        this->root = node_right;   
+    }
+    else{
+        parent->replace_child(to_remove, node_right);
+    }
+
+    node_min->set_left(node_left);
+    
 }
 
 void PlayerTree::clear(){

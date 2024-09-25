@@ -30,12 +30,11 @@ int main() {
     ifstream file_in;  // the input file from `fn_in`
     ofstream file_out; // the output file from `fn_out`
 
-    cout << "STILL MUST UNHARDCODE PATHS AND TEST"<<endl;
     cout << "Welcome to the player statistics calculator test program." << endl << endl;
 
     cout << "Enter the name of the input data file: " ;
-    //cin >> fn_in;  // get the input file name
-    fn_in = ".\\test_data\\playerinput.txt";
+    cin >> fn_in;  // get the input file name
+
     file_in.open(fn_in);   // Open the dna file
     if (!file_in.is_open()) {
         cerr << "Failed to open the input file." << endl;
@@ -43,8 +42,7 @@ int main() {
     }
 
     cout << endl << "Enter the name of the output data file: ";
-    //cin >> fn_out; // get the output file name
-    fn_out = ".\\test_data\\playerreport.txt";
+    cin >> fn_out; // get the output file name
     cout << endl;
 
     file_out.open(fn_out); // Open the report file
@@ -57,11 +55,6 @@ int main() {
 
     players = new PlayerTree(file_in);
     players->build_report(file_out);
-
-    players->remove_by_name("hank", "aaron", true);
-
-    players->build_report(file_out);
-
     players->clear();
 
     cout << "The output is in: " << fn_out << endl << endl;

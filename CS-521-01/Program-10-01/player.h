@@ -48,6 +48,7 @@ public:
     void set_all(const string names[2], const int stats[STAT_LENGTH]);
     void calc_statistics();
     string to_string();
+    string to_string_name();
     bool is_initialized();
     double get_batting_average();
     string get_sort_name();

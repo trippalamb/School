@@ -32,6 +32,7 @@ public:
     void replace_child(Node* old_child, Node* new_child);
     Node* get_single_child();
     bool is_leaf();
+    string to_string_tree(string indent);
     void clean();
     void destroy();
     ~Node();
@@ -80,6 +81,7 @@ public:
     bool remove_by_name(string name_first, string name_last, bool destroy=false);
     void clear();
     string to_string(bool reverse = false);
+    string to_string_tree();
     void build_report(ostream& stream);
 
 };

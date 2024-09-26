@@ -169,6 +169,14 @@ string Player::to_string(){
 }
 
 /**
+ * Standard to String method. Converts the player object to a string.
+ */
+string Player::to_string_name(){
+
+    return this->name_first + " " + this->name_last;
+}
+
+/**
  * Returns `true` if the player was constructed successfully. Useful for determining if the stream
  * had valid data.
  */

@@ -161,6 +161,22 @@ Node* Node::find_min() {
     return left->find_min();
 }
 
+/**
+ * prints the node tree.
+ */
+string Node::to_string_tree(string indent){
+    string output = indent + "|-" + this->data->to_string_name() + "\n";
+    string indent_new = indent + "  ";
+    if(this->has_left()){
+        output += indent_new + this->left->to_string_tree(indent_new);
+    }
+
+    if(this->has_right()){
+        output += indent_new + this->right->to_string_tree(indent_new);
+    }
+
+    return output;
+}
 
 /**
  * cleans out the data from node without deletion.
@@ -513,6 +529,7 @@ void PlayerTree::remove_node_with_two_children(Node* to_remove, Node*& parent) {
     node_min->set_left(node_left);
     
 }
+
 /**
  * Wrapper for `remove_all(true)`.
  * 
@@ -592,6 +609,13 @@ string PlayerTree::to_string_reverseOrder(){
     }
 
     return str;
+}
+
+/**
+ * prints the node tree.
+ */
+string PlayerTree::to_string_tree(){
+    return this->root->to_string_tree("");
 }
 
 /**

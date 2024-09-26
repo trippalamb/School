@@ -24,7 +24,7 @@ string open_input_file(ifstream& file_in){
 
     cout << "Enter the name of the input data file: " ;
     cin >> fn_in;  // get the input file name
-
+    //fn_in = ".\\test_data\\playerinput.txt";
     file_in.open(fn_in);   // Open the dna file
     if (!file_in.is_open()) {
         cerr << "Failed to open the input file." << endl;
@@ -40,6 +40,7 @@ string open_output_file(ofstream& file_out){
 
     cout << endl << "Enter the name of the output data file: ";
     cin >> fn_out; // get the output file name
+    //fn_out = ".\\test_data\\playerreport.txt";
     cout << endl;
 
     file_out.open(fn_out); // Open the report file

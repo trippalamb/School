@@ -1,4 +1,6 @@
 #include "PlayerTree.h"
+#include "math.h"
+
 
 /**
  * Default Node constructor.
@@ -637,6 +639,28 @@ void PlayerTree::build_report(ostream& stream){
     stream << "---------------------------------------------" << endl;
     stream << this->to_string(true);
 
+}
+
+
+int get_depth_inner(Node* current, int depth){
+    int depth_left = 0;
+    int depth_right = 0;
+    
+    if(current != nullptr){
+        depth++;
+    }
+    if(current->has_left()){
+        depth_left = get_depth_inner(current->get_left(), depth);
+    }
+    if(current->has_right()){
+        depth_right = get_depth_inner(current->get_right(), depth);
+    }
+
+    return max(depth, max(depth_left, depth_right));
+}
+int PlayerTree::get_depth(){
+
+    return get_depth_inner(this->root, 0);
 }
 
 /**

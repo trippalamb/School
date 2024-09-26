@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "Player.h"
+using namespace std;
 
 struct Node {
 private:
@@ -83,6 +84,7 @@ public:
     string to_string(bool reverse = false);
     string to_string_tree();
     void build_report(ostream& stream);
+    int get_depth();
 
 };
 

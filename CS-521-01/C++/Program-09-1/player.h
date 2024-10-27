@@ -7,6 +7,8 @@ using namespace std;
 
 const int STAT_LENGTH = 8;
 
+string build_sort_name(string first, string last);
+
 class Player {
 private:
 
@@ -39,13 +41,14 @@ public:
 
     Player();
     Player(istream& stream);
-    Player(const std::string names[2], const int stats[STAT_LENGTH]);
+    Player(const string names[2], const int stats[STAT_LENGTH]);
 
     Player& operator=(const Player& other);
 
     void set_all(const string names[2], const int stats[STAT_LENGTH]);
     void calc_statistics();
     string to_string();
+    string to_string_name();
     bool is_initialized();
     double get_batting_average();
     string get_sort_name();

@@ -17,49 +17,102 @@
 
 using namespace std;
 
-int main() {
 
-    PlayerTree* players; // holds the information of all players in the input file
+string open_input_file(ifstream& file_in){
 
     string fn_in = "";  // the input dna file name, user input
-    string fn_out = ""; // the output report file name, user input
-
-    string line_in = "";    // the current input line
-    string line_clean = ""; // the current cleaned up input line (lower to capital)
-
-    ifstream file_in;  // the input file from `fn_in`
-    ofstream file_out; // the output file from `fn_out`
-
-    cout << "STILL MUST UNHARDCODE PATHS AND TEST"<<endl;
-    cout << "Welcome to the player statistics calculator test program." << endl << endl;
 
     cout << "Enter the name of the input data file: " ;
-    //cin >> fn_in;  // get the input file name
-    fn_in = ".\\test_data\\playerinput.txt";
+    cin >> fn_in;  // get the input file name
+    //fn_in = ".\\test_data\\playerinput.txt";
     file_in.open(fn_in);   // Open the dna file
     if (!file_in.is_open()) {
         cerr << "Failed to open the input file." << endl;
-        return 1;
     }
 
+    return fn_in;
+
+}
+
+string open_output_file(ofstream& file_out){
+
+    string fn_out = ""; // the output report file name, user input
+
     cout << endl << "Enter the name of the output data file: ";
-    //cin >> fn_out; // get the output file name
-    fn_out = ".\\test_data\\playerreport.txt";
+    cin >> fn_out; // get the output file name
+    //fn_out = ".\\test_data\\playerreport.txt";
     cout << endl;
 
     file_out.open(fn_out); // Open the report file
     if (!file_out.is_open()) {
         cerr << "Failed to open the report file." << endl;
-        return 1;
+        exit(2);
     }
+
+    return fn_out;
+}
+
+void respond_to_cmds(PlayerTree*& players){
+
+    string cmd = "";    //holds the most recently input command
+    string name_first = "";
+    string name_last = "";
+    bool status = false;
+
+    while (true){
+        cout << "Would you like to 'quit', 'remove' a player, or 'print' the tree? ";
+        cin >> cmd;
+        cout << endl;
+
+        if(cmd == "quit"){break;}
+        else if(cmd == "remove"){
+
+            cout << "Please enter player's first name (case insensitve): ";
+            cin >> name_first;
+            cout << "Please enter player's last name (case insensitve): ";
+            cin >> name_last;
+
+            status = players->remove_by_name(name_first, name_last, true);
+            if(status){cout << "Player was removed." << endl << endl;}
+            else{cout << "No player by that name was found." << endl << endl;}
+
+        }
+        else if(cmd == "print"){
+            cout << players->to_string_tree() << endl;
+        }
+        else{
+            cout << "<" << cmd << "> is not a valid command please use 'quit', 'remove', or 'print'." << endl;
+        }
+    }
+}
+
+int main() {
+
+    PlayerTree* players; // holds the information of all players in the input file
+
+
+    string fn_in = "";  // the input dna file name, user input
+    string fn_out = ""; // the output report file name, user input
+
+    ifstream file_in;  // the input file from `fn_in`
+    ofstream file_out; // the output file from `fn_out`
+
+    cout << "Welcome to the player statistics calculator test program." << endl << endl;
+
+    fn_in = open_input_file(file_in);
+    fn_out = open_output_file(file_out);
 
     cout << endl << "Reading the data from: " << fn_in << endl;
 
     players = new PlayerTree(file_in);
     players->build_report(file_out);
-    players->remove_all();
 
     cout << "The output is in: " << fn_out << endl << endl;
+
+    respond_to_cmds(players);
+
+    players->clear();
+
     cout << "End of Program" << endl;
     
     return 0;

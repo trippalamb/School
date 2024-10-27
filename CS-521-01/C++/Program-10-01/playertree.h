@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "Player.h"
+using namespace std;
 
 struct Node {
 private:
@@ -23,10 +24,16 @@ public:
     void set_right(Node* node);
     Node* get_left();
     Node* get_right();
-    Node* search(string name, Node* parent);
+    Node* search(string name, Node*& parent);
     Player* get_data();
     bool has_left();
     bool has_right();
+    bool has_only_one_child();
+    Node* find_min();
+    void replace_child(Node* old_child, Node* new_child);
+    Node* get_single_child();
+    bool is_leaf();
+    string to_string_tree(string indent);
     void clean();
     void destroy();
     ~Node();
@@ -52,6 +59,9 @@ private:
     Player* get_left();
     Player* get_current();
     void remove_all_inner(bool destroy = false);
+    void remove_leaf_node(Node* to_remove, Node*& parent);
+    void remove_node_with_one_child(Node* to_remove, Node*& parent);
+    void remove_node_with_two_children(Node* to_remove, Node*& parent);
 
 public:
     PlayerTree();
@@ -72,7 +82,9 @@ public:
     bool remove_by_name(string name_first, string name_last, bool destroy=false);
     void clear();
     string to_string(bool reverse = false);
+    string to_string_tree();
     void build_report(ostream& stream);
+    int get_depth();
 
 };
 

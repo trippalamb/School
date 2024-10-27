@@ -107,11 +107,9 @@ Player& Player::operator=(const Player& other) {
  * sets a name variable to be used in alphabetical sorting. Requires `name_first` and `name_last` to already be set
  */
 void Player::set_sort_name(){
-    this->name_sort = this->name_last + this->name_first;
-    for(int i = 0; i < this->name_sort.length(); i++){
-        this->name_sort[i] = tolower(this->name_sort[i]);
-    }
+    this->name_sort = build_sort_name(this->name_first, this->name_last);
 }
+
 
 
 /**
@@ -171,6 +169,14 @@ string Player::to_string(){
 }
 
 /**
+ * Standard to String method. Converts the player object to a string.
+ */
+string Player::to_string_name(){
+
+    return this->name_first + " " + this->name_last;
+}
+
+/**
  * Returns `true` if the player was constructed successfully. Useful for determining if the stream
  * had valid data.
  */
@@ -190,4 +196,12 @@ double Player::get_batting_average(){
  */
 string Player::get_sort_name(){
     return this->name_sort;
+}
+
+string build_sort_name(string first, string last){
+    string full = last + first;
+    for(int i = 0; i < full.length(); i++){
+        full[i] = tolower(full[i]);
+    }
+    return full;
 }

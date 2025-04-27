@@ -23,13 +23,13 @@ The time complexity is `O(n)` for best, worst, and average case. The application
 Build:
 
 ```
-...
+g++ final_problem_1.cpp -o final_problem_1
 ```
 
 Execute:
 
 ```
-final_problem_1.exe <input_file_name>
+./final_problem_1 <input_file_name>
 ```
 
 ### Execution Results
@@ -75,13 +75,13 @@ Given two sorted 0-indexed arrays where the first array (`A`) has an additional 
 Build:
 
 ```
-...
+g++ final_problem_2.cpp -o final_problem_2
 ```
 
 Execute:
 
 ```
-final_problem_2.exe <input_file_name>
+./final_problem_2 <input_file_name>
 ```
 
 ### Execution Results

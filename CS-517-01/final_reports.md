@@ -4,7 +4,7 @@ Name: (Tripp) Milton Lamb
 
 A#: 25002371
 
-I wrote the c++ code in vscode on windows and then moved it over to Linux to double check compilation. Typora was used to write markdown and generate pdfs of this report. I am more familiar with Python, JS, Fortran, and Rust so Claude AI was used for syntax lookups and idiomatic c++ patterns. I use windsurf for autocomplete. All logic is my own.
+I wrote the C++ code in VS Code on windows and then moved it over to Linux to double check compilation. Typora was used to write markdown and generate the pdf of this report. I am more familiar with Python, JS, Fortran, and Rust so Claude AI was used for syntax lookups and idiomatic C++ patterns. I use Windsurf for autocomplete. All logic is my own.
 
 ---
 

@@ -1,0 +1,19 @@
+[package]
+name = "significance"
+version = "0.1.0"
+edition = "2021"
+
+# Library configuration (default: src/lib.rs)
+[lib]
+name = "significance"
+path = "src/lib.rs"
+
+# Binary configurations (Cargo automatically finds binaries in src/bin/)
+[[bin]]
+name = "significance"
+path = "src/bin/main.rs"
+
+[dependencies]
+
+[dev-dependencies]
+# Add testing dependencies here as needed

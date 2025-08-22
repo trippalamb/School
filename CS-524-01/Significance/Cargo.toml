@@ -11,7 +11,7 @@ path = "src/lib.rs"
 # Binary configurations (Cargo automatically finds binaries in src/bin/)
 [[bin]]
 name = "significance"
-path = "src/bin/main.rs"
+path = "src/bin/Significance.rs"
 
 [dependencies]
 

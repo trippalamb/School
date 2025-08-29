@@ -1,16 +1,26 @@
-(* Extended Backus-Naur Form for Toy Language *)
-(* Supports arithmetic operations, functions, variables, assignments, and comments *)
+(* Extended Backus-Naur Form for Significance Language *)
+(* Supports arithmetic operations with uncertainty, variables, assignments, and comments *)
 
 (* Entry point *)
 program ::= statement*
 
 (* Statements *)
-statement ::= assignment
-            | expression
+statement ::= variable_declaration
+            | assignment
+            | expression_statement
             | comment
 
+(* Variable declaration *)
+variable_declaration ::= "{" identifier ":" type "}"
+
+(* Type system *)
+type ::= "real"
+
 (* Assignment *)
-assignment ::= identifier "=" expression
+assignment ::= identifier ":=" expression
+
+(* Expression statement (gets printed to console) *)
+expression_statement ::= expression
 
 (* Comments *)
 comment ::= "#" comment_text? newline
@@ -18,25 +28,28 @@ comment ::= "#" comment_text? newline
 comment_text ::= ( letter | digit | whitespace_char | symbol )*
 
 (* Expressions *)
-expression ::= additive_expr
+expression ::= term
 
 (* Addition and Subtraction (lowest precedence) *)
-additive_expr ::= multiplicative_expr ( ( "+" | "-" ) multiplicative_expr )*
+term ::= factor ( ( "+" | "-" ) factor )*
 
 (* Multiplication, Division, and Modulus *)
-multiplicative_expr ::= exponential_expr ( ( "*" | "/" | "%" ) exponential_expr )*
+factor ::= power ( ( "*" | "/" | "%" ) power )*
 
-(* Exponentiation (right-associative) *)
-exponential_expr ::= unary_expr ( "**" exponential_expr )?
+(* Exponentiation and Root (right-associative) *)
+power ::= unary ( ( "**" | "//" ) unary )?
 
 (* Unary operations (unary minus/plus) *)
-unary_expr ::= ( "+" | "-" )? primary_expr
+unary ::= ( "+" | "-" )? primary
 
 (* Primary expressions (highest precedence) *)
-primary_expr ::= number
-               | variable
-               | function_call
-               | "(" expression ")"
+primary ::= number_with_uncertainty
+          | variable
+          | function_call
+          | "(" expression ")"
+
+(* Numbers with optional uncertainty *)
+number_with_uncertainty ::= number_scientific ( "+/-" number_scientific )?
 
 (* Function calls *)
 function_call ::= identifier "(" argument_list? ")"
@@ -52,6 +65,11 @@ identifier ::= letter ( letter | digit | "_" )*
 
 (* Numbers *)
 number ::= integer_part ( "." fractional_part )?
+
+(* Scientific notation numbers *)
+number_scientific ::= number ( exponent_part )?
+
+exponent_part ::= ( "e" | "E" ) ( "+" | "-" )? digit+
 
 integer_part ::= digit+
 

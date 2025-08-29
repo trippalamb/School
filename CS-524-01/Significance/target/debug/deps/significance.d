@@ -1,5 +1,5 @@
-C:\Users\Tripp\Projects\Significance\target\debug\deps\significance.exe: src\bin\main.rs
+C:\Users\tripp.lamb\Projects\School\CS-524-01\Significance\target\debug\deps\significance.exe: src\bin\Significance.rs
 
-C:\Users\Tripp\Projects\Significance\target\debug\deps\significance.d: src\bin\main.rs
+C:\Users\tripp.lamb\Projects\School\CS-524-01\Significance\target\debug\deps\significance.d: src\bin\Significance.rs
 
-src\bin\main.rs:
+src\bin\Significance.rs:

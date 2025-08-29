@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug significance binary",
+            "cargo": {
+                "args": ["build", "--bin=significance"],
+                "filter": {
+                    "name": "significance",
+                    "kind": "bin"
+                }
+            },
+            "args": ["docs/example_1.sig"],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch", 
+            "name": "Debug unit tests",
+            "cargo": {
+                "args": ["test", "--no-run", "--lib"],
+                "filter": {
+                    "name": "significance",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

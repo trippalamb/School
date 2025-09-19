@@ -13,7 +13,7 @@ fn create_tokens(tokens: Vec<Token>) -> Vec<TokenWithPos> {
 fn parse_tokens(tokens: Vec<Token>) -> Result<Program, ParseError> {
     let tokens_with_pos = create_tokens(tokens);
     let mut parser = Parser::new();
-    parser.parse(tokens_with_pos)
+    parser.parse_program(tokens_with_pos)
 }
 
 #[test]
@@ -29,7 +29,7 @@ fn test_simple_number() {
     assert_eq!(program.statements.len(), 1);
     
     match &program.statements[0] {
-        Statement::Expression(Expression::NumberWithUncertainty { value, error }) => {
+        Statement::Expression(Expression::NumberWithUncertainty { value, error, pos:Position { line:1, column:1 } }) => {
             assert_eq!(*value, 42.5);
             assert_eq!(*error, 0.0);
         }
@@ -52,7 +52,7 @@ fn test_number_with_uncertainty() {
     assert_eq!(program.statements.len(), 1);
     
     match &program.statements[0] {
-        Statement::Expression(Expression::NumberWithUncertainty { value, error }) => {
+        Statement::Expression(Expression::NumberWithUncertainty { value, error, pos:Position { line:1, column:1 } }) => {
             assert_eq!(*value, 12.3);
             assert_eq!(*error, 0.5);
         }
@@ -77,7 +77,7 @@ fn test_variable_declaration() {
     assert_eq!(program.statements.len(), 1);
     
     match &program.statements[0] {
-        Statement::VarDeclaration { name, var_type } => {
+        Statement::VarDeclaration { name, var_type, pos:Position { line:1, column:1 } } => {
             assert_eq!(name, "x");
             assert_eq!(*var_type, VarType::Real);
         }
@@ -102,10 +102,10 @@ fn test_assignment() {
     assert_eq!(program.statements.len(), 1);
     
     match &program.statements[0] {
-        Statement::Assignment { name, value } => {
+        Statement::Assignment { name, value, pos:Position { line:1, column:1 } } => {
             assert_eq!(name, "x");
             match value {
-                Expression::NumberWithUncertainty { value, error } => {
+                Expression::NumberWithUncertainty { value, error, pos:Position { line:1, column:1 } } => {
                     assert_eq!(*value, 5.0);
                     assert_eq!(*error, 0.1);
                 }
@@ -151,7 +151,7 @@ fn test_binary_addition() {
     assert_eq!(program.statements.len(), 1);
     
     match &program.statements[0] {
-        Statement::Expression(Expression::Binary { left, op, right }) => {
+        Statement::Expression(Expression::Binary { left, op, right, pos:Position { line:1, column:1 } }) => {
             assert_eq!(*op, BinaryOp::Add);
             
             match (left.as_ref(), right.as_ref()) {
@@ -180,10 +180,10 @@ fn test_unary_minus() {
     assert_eq!(program.statements.len(), 1);
     
     match &program.statements[0] {
-        Statement::Expression(Expression::Unary { op, operand }) => {
+        Statement::Expression(Expression::Unary { op, operand, pos:Position { line:1, column:1 } }) => {
             assert_eq!(*op, UnaryOp::Minus);
             match operand.as_ref() {
-                Expression::NumberWithUncertainty { value, error } => {
+                Expression::NumberWithUncertainty { value, error, pos:Position { line:1, column:1 } } => {
                     assert_eq!(*value, 5.0);
                     assert_eq!(*error, 0.0);
                 }
@@ -209,7 +209,7 @@ fn test_parenthesized_expression() {
     assert_eq!(program.statements.len(), 1);
     
     match &program.statements[0] {
-        Statement::Expression(Expression::NumberWithUncertainty { value, error }) => {
+        Statement::Expression(Expression::NumberWithUncertainty { value, error, pos:Position { line:1, column:1 } }) => {
             assert_eq!(*value, 42.0);
             assert_eq!(*error, 0.0);
         }
@@ -232,7 +232,7 @@ fn test_function_call_no_args() {
     assert_eq!(program.statements.len(), 1);
     
     match &program.statements[0] {
-        Statement::Expression(Expression::FunctionCall { name, args }) => {
+        Statement::Expression(Expression::FunctionCall { name, args, pos:Position { line:1, column:1 } }) => {
             assert_eq!(name, "sqrt");
             assert_eq!(args.len(), 0);
         }
@@ -258,13 +258,13 @@ fn test_function_call_with_args() {
     assert_eq!(program.statements.len(), 1);
     
     match &program.statements[0] {
-        Statement::Expression(Expression::FunctionCall { name, args }) => {
+        Statement::Expression(Expression::FunctionCall { name, args, pos:Position { line:1, column:1 } }) => {
             assert_eq!(name, "pow");
             assert_eq!(args.len(), 2);
             
             match (&args[0], &args[1]) {
-                (Expression::NumberWithUncertainty { value: v1, error: e1 },
-                    Expression::NumberWithUncertainty { value: v2, error: e2 }) => {
+                (Expression::NumberWithUncertainty { value: v1, error: e1, pos:Position { line:1, column:1 } },
+                    Expression::NumberWithUncertainty { value: v2, error: e2, pos:Position { line:1, column:1 } }) => {
                     assert_eq!(*v1, 2.0);
                     assert_eq!(*e1, 0.0);
                     assert_eq!(*v2, 3.0);
@@ -301,7 +301,7 @@ fn test_multiple_statements() {
     
     // Check declaration
     match &program.statements[0] {
-        Statement::VarDeclaration { name, var_type } => {
+        Statement::VarDeclaration { name, var_type, pos:Position { line:1, column:1 } } => {
             assert_eq!(name, "x");
             assert_eq!(*var_type, VarType::Real);
         }
@@ -343,7 +343,7 @@ fn test_operator_precedence() {
     assert_eq!(program.statements.len(), 1);
     
     match &program.statements[0] {
-        Statement::Expression(Expression::Binary { left, op, right }) => {
+        Statement::Expression(Expression::Binary { left, op, right, pos:Position { line:1, column:1 } }) => {
             assert_eq!(*op, BinaryOp::Add);
             
             // Left should be 2.0
@@ -354,7 +354,7 @@ fn test_operator_precedence() {
             
             // Right should be (3.0 * 4.0)
             match right.as_ref() {
-                Expression::Binary { left: inner_left, op: inner_op, right: inner_right } => {
+                Expression::Binary { left: inner_left, op: inner_op, right: inner_right, pos:Position { line:1, column:1 } } => {
                     assert_eq!(*inner_op, BinaryOp::Mul);
                     
                     match (inner_left.as_ref(), inner_right.as_ref()) {

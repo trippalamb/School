@@ -42,7 +42,7 @@ real :: vector(3)
 
 1. A view or representation of an entity that includes only the most significant attributes.
 
-   > Page 448, Robert W. Sebesta Concepts of programming languages 12th edition.
+   > Robert W. Sebesta Concepts of programming languages, 12th edition, Page 448.
 
 2. A less detailed representation of an object or concept in nature.
 
@@ -359,3 +359,15 @@ graph TD
 
 ### 4(b)
 
+The "+" operator exhibits left associativity. The grammar for `Expression` being left-recursive denotes this.
+
+### 4(c)
+
+1. Using the grammar alone it is impossible to determine that 'D', 'E', 'F', and 'G' are undeclared variables.
+2. Using only the grammar present here it is impossible to determine the lack of a return statement which is required by the declaration of the main function as an int. In fact the return statement grammar is missing entirely.
+
+### 4(d)
+
+1. Add a return statement
+2. Identifiers need to be able to use lower case letters, underscores, and number characters. They also need to be able to handle multiple characters.
+3. Integers need to be able to handle multiple characters

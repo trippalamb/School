@@ -2,96 +2,111 @@
 (* Supports arithmetic operations with uncertainty, variables, assignments, and comments *)
 
 (* Entry point *)
-program ::= statement*
+program = { statement };
 
 (* Statements *)
-statement ::= variable_declaration
-            | assignment
-            | expression_statement
-            | comment
+statement = variable_declaration
+          | assignment
+          | expression_statement
+          | comment;
 
 (* Variable declaration *)
-variable_declaration ::= "{" identifier ":" type "}"
+variable_declaration = "{", identifier, ":", type, "}";
 
 (* Type system *)
-type ::= "real"
+type = "real";
 
 (* Assignment *)
-assignment ::= identifier ":=" expression
+assignment = identifier, ":=", expression;
 
 (* Expression statement (gets printed to console) *)
-expression_statement ::= expression
+expression_statement = expression;
 
 (* Comments *)
-comment ::= "#" comment_text? newline
+comment = "#", [ comment_text ], newline;
 
-comment_text ::= ( letter | digit | whitespace_char | symbol )*
+comment_text = { letter | digit | whitespace_char | symbol };
 
 (* Expressions *)
-expression ::= term
+expression = term;
 
 (* Addition and Subtraction (lowest precedence) *)
-term ::= factor ( ( "+" | "-" ) factor )*
+term = factor, { term_op, factor };
+
+(* Operators for the term non-terminal*)
+term_op = "+" | "-";
 
 (* Multiplication, Division, and Modulus *)
-factor ::= power ( ( "*" | "/" | "%" ) power )*
+factor = power, { factor_op, power };
+
+(* Operators for the factor non-terminal*)
+factor_op = "*" | "/" | "%";
 
 (* Exponentiation and Root (right-associative) *)
-power ::= unary ( ( "**" | "//" ) unary )?
+power = unary, [ power_op, unary ];
+
+(* Operators for the power non-terminal*)
+power_op = "**" | "//";
 
 (* Unary operations (unary minus/plus) *)
-unary ::= ( "+" | "-" )? primary
+unary = [ unary_op ], primary;
+
+(* Operators for the unary non-terminal*)
+unary_op = "+" | "-";
 
 (* Primary expressions (highest precedence) *)
-primary ::= number_with_uncertainty
-          | variable
-          | function_call
-          | "(" expression ")"
+primary = number_with_uncertainty
+        | variable
+        | function_call
+        | "(", expression, ")";
 
 (* Numbers with optional uncertainty *)
-number_with_uncertainty ::= number_scientific ( "+/-" number_scientific )?
+number_with_uncertainty = number_scientific, [ uncertainty_op, number_scientific ];
+
+(* Uncertainty Operator *)
+uncertainty_op = "+/-";
 
 (* Function calls *)
-function_call ::= identifier "(" argument_list? ")"
+function_call = identifier, "(", [ argument_list ], ")";
 
 (* Function arguments *)
-argument_list ::= expression ( "," expression )*
+argument_list = expression, { ",", expression };
 
 (* Variables and function names *)
-variable ::= identifier
+variable = identifier;
 
 (* Identifier definition *)
-identifier ::= letter ( letter | digit | "_" )*
+identifier = letter, { letter | digit | "_" };
 
 (* Numbers *)
-number ::= integer_part ( "." fractional_part )?
+number = integer_part, [ ".", fractional_part ];
 
 (* Scientific notation numbers *)
-number_scientific ::= number ( exponent_part )?
+number_scientific = number, [ exponent_part ];
 
-exponent_part ::= ( "e" | "E" ) ( "+" | "-" )? digit+
+exponent_part = ( "e" | "E" ), [ unary_op ], digit, { digit };
 
-integer_part ::= digit+
+integer_part = digit, { digit };
 
-fractional_part ::= digit+
+fractional_part = digit, { digit };
 
 (* Basic character definitions *)
-letter ::= "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" 
-         | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" 
-         | "u" | "v" | "w" | "x" | "y" | "z"
-         | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" 
-         | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" 
-         | "U" | "V" | "W" | "X" | "Y" | "Z"
+letter = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" 
+       | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" 
+       | "u" | "v" | "w" | "x" | "y" | "z"
+       | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" 
+       | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" 
+       | "U" | "V" | "W" | "X" | "Y" | "Z";
 
-digit ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 
 (* Character definitions *)
-newline ::= "\n" | "\r\n" | "\r"
+newline = "\n" | "\r\n" | "\r";
 
-whitespace_char ::= " " | "\t"
+whitespace_char = " " | "\t";
 
-symbol ::= "!" | "@" | "$" | "^" | "&" | "?" | ":" | ";" | "," | "." | "<" | ">" | "~" | "`"
-         | "[" | "]" | "{" | "}" | "|" | "\\" | "'" | "\"" | "+" | "-" | "*" | "/" | "%" | "=" | "(" | ")"
+symbol = "!" | "@" | "$" | "^" | "&" | "?" | ":" | ";" | "," | "." | "<" | ">" | "~" | "`"
+       | "[" | "]" | "{" | "}" | "|" | "\" | "'" | '"' | "+" | "-" | "*" | "/" | "%" | "=" | "(" | ")";
 
 (* Whitespace (typically ignored by lexer except in comments) *)
-whitespace ::= whitespace_char | newline
+whitespace = whitespace_char | newline;

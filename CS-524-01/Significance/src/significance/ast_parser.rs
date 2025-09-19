@@ -1,4 +1,4 @@
-use crate::significance::tokenizer::{Token, TokenWithPos};
+use crate::significance::tokenizer::{Token, TokenWithPos, Position};
 
 /// Abstract Syntax Tree node types
 #[derive(Debug, Clone, PartialEq)]
@@ -8,23 +8,24 @@ pub struct Program {
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Statement {
-    VarDeclaration { name: String, var_type: VarType },
-    Assignment { name: String, value: Expression },
+    VarDeclaration { name: String, var_type: VarType, pos: Position },
+    Assignment { name: String, value: Expression, pos: Position },
     Expression(Expression),
 }
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum VarType {
     Real,
+    RealFunction
 }
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Expression {
-    NumberWithUncertainty { value: f64, error: f64 },
+    NumberWithUncertainty { value: f64, error: f64, pos: Position },
     Variable(String),
-    Binary { left: Box<Expression>, op: BinaryOp, right: Box<Expression> },
-    Unary { op: UnaryOp, operand: Box<Expression> },
-    FunctionCall { name: String, args: Vec<Expression> },
+    Binary { left: Box<Expression>, op: BinaryOp, right: Box<Expression>, pos: Position },
+    Unary { op: UnaryOp, operand: Box<Expression>, pos: Position },
+    FunctionCall { name: String, args: Vec<Expression>, pos: Position},
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -47,13 +48,12 @@ pub enum UnaryOp {
 #[derive(Debug)]
 pub struct ParseError {
     pub message: String,
-    pub line: usize,
-    pub column: usize,
+    pub position: Position,
 }
 
 impl std::fmt::Display for ParseError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Parse error at {}:{}: {}", self.line, self.column, self.message)
+        write!(f, "Parse error at {}:{}: {}", self.position.line, self.position.column, self.message)
     }
 }
 
@@ -71,15 +71,14 @@ impl Parser {
     }
     
     /// Parse the entire program
-    pub fn parse(&mut self, tokens: Vec<TokenWithPos>) -> Result<Program, ParseError> {
+    pub fn parse_program(&mut self, tokens: Vec<TokenWithPos>) -> Result<Program, ParseError> {
         self.tokens = tokens;
         
         // Safety check - ensure EOF is present
         if self.tokens.is_empty() || !matches!(self.tokens.last().unwrap().token, Token::EOF) {
             return Err(ParseError { 
                 message: "Token stream must end with EOF".to_string(),
-                line: 1, 
-                column: 1 
+                position: Position {line: 1, column: 1}
             });
         }
         
@@ -114,6 +113,8 @@ impl Parser {
 
     fn parse_var_declaration(&mut self) -> Result<Statement, ParseError> {
 
+        let pos = self.current_position();
+
         self.expect_token(Token::LeftBrace)?;
 
         let name = self.consume_identifier()?;
@@ -124,7 +125,7 @@ impl Parser {
 
         self.expect_token(Token::RightBrace)?;
 
-        Ok(Statement::VarDeclaration { name, var_type })
+        Ok(Statement::VarDeclaration { name, var_type, pos })
         
     }
 
@@ -142,17 +143,22 @@ impl Parser {
     }
 
     fn parse_assignment(&mut self) -> Result<Statement, ParseError> {
+
+        let pos = self.current_position();
+
         let name = self.consume_identifier()?;
 
         self.expect_token(Token::Assign)?;
 
         let expression = self.parse_expression()?;
 
-        Ok(Statement::Assignment { name, value: expression })
+        Ok(Statement::Assignment { name, value: expression, pos })
     }
     
     /// Parse expressions (handles precedence: term level + -)
     fn parse_expression(&mut self) -> Result<Expression, ParseError> {
+
+        let pos = self.current_position();
 
         let mut left = self.parse_term()?;
 
@@ -163,7 +169,8 @@ impl Parser {
             left = Expression::Binary { 
                 left: Box::new(left),
                 op,
-                right: Box::new(right) 
+                right: Box::new(right),
+                pos 
             };
         }
 
@@ -173,6 +180,9 @@ impl Parser {
     
     /// Parse term level (handles * / %)
     fn parse_term(&mut self) -> Result<Expression, ParseError> {
+
+        let pos = self.current_position();
+
         let mut left = self.parse_factor()?;
 
         while let Some(op) = self.try_consume_factor_operator() {
@@ -182,7 +192,8 @@ impl Parser {
             left = Expression::Binary { 
                 left: Box::new(left),
                 op,
-                right: Box::new(right) 
+                right: Box::new(right) , 
+                pos
             };
         }
 
@@ -191,6 +202,9 @@ impl Parser {
     
     /// Parse factor level (handles ** //)  
     fn parse_factor(&mut self) -> Result<Expression, ParseError> {
+
+        let pos = self.current_position();
+
         let left = self.parse_unary()?;
 
         if let Some(op) = self.try_consume_power_operator() {
@@ -200,7 +214,8 @@ impl Parser {
             Ok(Expression::Binary { 
                 left: Box::new(left),
                 op,
-                right: Box::new(right) 
+                right: Box::new(right),
+                pos
             })
         }
         else{
@@ -212,8 +227,10 @@ impl Parser {
     /// Parse unary expressions (+ - prefix)
     fn parse_unary(&mut self) -> Result<Expression, ParseError> {
 
+        let pos = self.current_position();
+
         match self.try_consume_unary_operator() {
-            Some(op) => Ok(Expression::Unary { op, operand: Box::new(self.parse_unary()?) }),
+            Some(op) => Ok(Expression::Unary { op, operand: Box::new(self.parse_unary()?), pos }),
             None => self.parse_primary(),
         }
 
@@ -221,6 +238,8 @@ impl Parser {
     
     /// Parse primary expressions (numbers, variables, function calls, parentheses)
     fn parse_primary(&mut self) -> Result<Expression, ParseError> {
+
+        let pos = self.current_position();
 
         let current = self.advance().clone();
         let next = self.peek_token();
@@ -239,7 +258,7 @@ impl Parser {
                 self.parse_number_with_uncertainty(n) 
             },
             (Token::Number(n), _) => { 
-                Ok(Expression::NumberWithUncertainty { value: n, error: 0.0 }) 
+                Ok(Expression::NumberWithUncertainty { value: n, error: 0.0, pos }) 
             },
             _ => Err(self.error("Expected expression")),
         }
@@ -248,10 +267,12 @@ impl Parser {
 
     fn parse_number_with_uncertainty(&mut self, number: f64) -> Result<Expression, ParseError> {
 
+        let pos = self.current_position();
+
         self.expect_token(Token::PlusMinus)?;
         match self.advance() {
             Token::Number(error) => {
-                Ok(Expression::NumberWithUncertainty { value:number , error: *error })
+                Ok(Expression::NumberWithUncertainty { value:number , error: *error, pos })
             },
             _ => {
                 Err(self.error("Expected uncertainty number"))
@@ -262,10 +283,12 @@ impl Parser {
 
     fn parse_function_call(&mut self, name: String) -> Result<Expression, ParseError> {
 
+        let pos = self.current_position();
+
         self.expect_token(Token::LeftParen)?;
         let args = self.parse_argument_list()?;
         self.expect_token(Token::RightParen)?;
-        Ok(Expression::FunctionCall { name, args })
+        Ok(Expression::FunctionCall { name, args, pos })
     }
 
     fn parse_argument_list(&mut self) -> Result<Vec<Expression>, ParseError> {
@@ -355,14 +378,8 @@ impl Parser {
         }
     }
     
-    fn current_position(&self) -> (usize, usize) {
-        if self.current < self.tokens.len() {
-            let pos = self.tokens[self.current].position;
-            (pos.line, pos.column)
-        } else {
-            let pos = self.tokens.last().unwrap().position;
-            (pos.line, pos.column)
-        }
+    fn current_position(&self) -> Position {
+        self.tokens[self.current].position.clone()        
     }
 
     fn consume_var_type(&mut self) -> Result<VarType, ParseError> {
@@ -394,11 +411,9 @@ impl Parser {
     }
 
     fn error(&self, message: &str) -> ParseError {
-        let (line, column) = self.current_position();
         ParseError { 
             message: message.to_string(), 
-            line, 
-            column 
+            position: self.current_position() 
         }
     }
 }

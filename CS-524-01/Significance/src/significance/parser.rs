@@ -9,43 +9,8 @@ impl Significance {
         let contents = fs::read_to_string(filename)
             .map_err(|e| format!("Failed to read file '{}': {}", filename, e))?;
         
-        let mut chars = contents.chars().peekable(); // peekable() lets you look ahead
         
-        while let Some(&ch) = chars.peek() {
-            // Skip whitespace
-            if ch.is_whitespace() {
-                chars.next(); // consume the whitespace character
-                continue;
-            }
-            
-            match ch {
-                '#' => {
-                    // Parse comment
-                    // TODO: implement comment parsing
-                    chars.next(); // consume the '#'
-                },
-                'a'..='z' | 'A'..='Z' | '_' => {
-                    // Could be assignment or expression starting with identifier
-                    // You'll need to parse the identifier first, then peek ahead for '='
-                    // TODO: implement identifier parsing and lookahead
-                },
-                '0'..='9' => {
-                    // Expression starting with number
-                    // TODO: implement number parsing
-                },
-                '+' | '-' => {
-                    // Expression starting with unary operator
-                    // TODO: implement unary expression parsing
-                },
-                '(' => {
-                    // Expression starting with parenthesized expression
-                    // TODO: implement parenthesized expression parsing
-                },
-                _ => {
-                    return Err(format!("Unexpected character: '{}'", ch));
-                }
-            }
-        }
+        // TODO: Implement actual parsing and evaluation
         
         Ok(0) // placeholder
     }

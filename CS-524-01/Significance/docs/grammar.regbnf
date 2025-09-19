@@ -1,0 +1,74 @@
+program ::= statement*
+
+statement ::= variable_declaration | assignment | expression_statement | comment
+
+variable_declaration ::= "{" identifier ":" type "}"
+
+type ::= "real"
+
+assignment ::= identifier ":=" expression
+
+expression_statement ::= expression
+
+comment ::= "#" comment_text? newline
+
+comment_text ::= (letter | digit | whitespace_char | symbol)*
+
+expression ::= term
+
+term ::= factor (term_op factor)*
+
+term_op ::= "+" | "-"
+
+factor ::= power (factor_op power)*
+
+factor_op ::= "*" | "/" | "%"
+
+power ::= unary (power_ops unary)?
+
+power_ops ::= "**" | "//"
+
+unary ::= unary_ops? primary
+
+unary_ops ::= "+" | "-"
+
+primary ::= number_with_uncertainty | variable | function_call | "(" expression ")"
+
+number_with_uncertainty ::= number_scientific ("+/-" number_scientific)?
+
+function_call ::= identifier "(" argument_list? ")"
+
+argument_list ::= expression ("," expression)*
+
+variable ::= identifier
+
+identifier ::= letter (letter | digit | "_")*
+
+number ::= integer_part ("." fractional_part)?
+
+number_scientific ::= number exponent_part?
+
+exponent_part ::= ("e" | "E") ("+" | "-")? digit+
+
+integer_part ::= digit+
+
+fractional_part ::= digit+
+
+letter ::= "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" |
+         "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" |
+         "u" | "v" | "w" | "x" | "y" | "z" |
+         "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" |
+         "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" |
+         "U" | "V" | "W" | "X" | "Y" | "Z"
+
+digit ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+newline ::= "\n" | "\r\n" | "\r"
+
+whitespace_char ::= " " | "\t"
+
+symbol ::= "!" | "@" | "$" | "^" | "&" | "?" | ":" | ";" | "," | "." |
+         "<" | ">" | "~" | "`" | "[" | "]" | "{" | "}" | "|" | "\" |
+         "'" | "\"" | "+" | "-" | "*" | "/" | "%" | "=" | "(" | ")"
+
+whitespace ::= whitespace_char | newline

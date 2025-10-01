@@ -1,13 +1,5 @@
 # Significance: Deliverable 1
 
-Author: (Tripp) Milton Lamb
-
-Date: 9/23/2025
-
-Class: CS-524-01 Fall
-
-E-mail: mal0004@uah.edu
-
 ## Introduction
 
 Significance is a language designed for CS-524. It was born out of curiosity for a way to hold onto uncertainty in values during modeling and simulation. After a slight amount of research it became clear how unhelpful this would be in an iterative dynamical simulation due to compounding error without appropriate covariance, and this covariance would be difficult to determine in practice. Nonetheless having the language parse uncertainty still seemed like a reasonable addition to fulfill the requirements of the project.

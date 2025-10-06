@@ -51,6 +51,15 @@ pub struct ParseError {
     pub position: Position,
 }
 
+impl From<String> for ParseError {
+    fn from(message: String) -> Self {
+        ParseError {
+            message,
+            position: Position { line: 0, column: 0 }
+        }
+    }
+}
+
 impl std::fmt::Display for ParseError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "Parse error at {}:{}: {}", self.position.line, self.position.column, self.message)
@@ -60,12 +69,12 @@ impl std::fmt::Display for ParseError {
 impl std::error::Error for ParseError {}
 
 /// Recursive descent parser
-pub struct Parser {
+pub struct AstParser {
     tokens: Vec<TokenWithPos>,
     current: usize,
 }
 
-impl Parser {
+impl AstParser {
     pub fn new() -> Self {
         Self { tokens:vec![], current: 0 }
     }
@@ -94,7 +103,7 @@ impl Parser {
     }
     
     /// Parse a single statement
-    fn parse_statement(&mut self) -> Result<Statement, ParseError> {
+    pub fn parse_statement(&mut self) -> Result<Statement, ParseError> {
         
         match self.current_token() {
             Token::LeftBrace => {
@@ -109,6 +118,12 @@ impl Parser {
             }
         }
 
+    }
+
+    pub fn parse_statement_from_tokens(&mut self, tokens: Vec<TokenWithPos>) -> Result<Statement, ParseError> {
+
+        self.tokens = tokens;
+        self.parse_statement()
     }
 
     fn parse_var_declaration(&mut self) -> Result<Statement, ParseError> {

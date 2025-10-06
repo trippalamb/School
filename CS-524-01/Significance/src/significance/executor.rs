@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use crate::significance::ast_parser::{Program, Statement, VarType, Expression, BinaryOp, UnaryOp};
 use crate::significance::tokenizer::Position;
+use crate::significance::std_lib_call;
 
 #[derive(Debug, Clone)]
 pub enum RunTimeError {
@@ -111,7 +112,10 @@ impl Executor{
                     UnaryOp::Minus => -operand_value,
                 }
             },
-            Expression::FunctionCall { name:_, args:_, pos:_ } => todo!(),
+            Expression::FunctionCall { name, args, pos } => {
+                let vals: Vec<f64> = args.iter().map(|arg| self.evaluate_expression(arg)).collect();
+                std_lib_call(name, &vals, pos)
+            }
 
         }
     }

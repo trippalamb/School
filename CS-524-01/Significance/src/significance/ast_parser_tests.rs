@@ -12,7 +12,7 @@ fn create_tokens(tokens: Vec<Token>) -> Vec<TokenWithPos> {
 
 fn parse_tokens(tokens: Vec<Token>) -> Result<Program, ParseError> {
     let tokens_with_pos = create_tokens(tokens);
-    let mut parser = Parser::new();
+    let mut parser = AstParser::new();
     parser.parse_program(tokens_with_pos)
 }
 

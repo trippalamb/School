@@ -1,76 +1,81 @@
-program ::= statement*
+program = { statement };
 
-statement ::= variable_declaration
-            | assignment
-            | expression_statement
-            | comment
+statement = variable_declaration
+          | assignment
+          | expression_statement
+          | comment;
 
-variable_declaration ::= "{" identifier ":" type "}"
+variable_declaration = "{", identifier, ":", type, "}";
 
-type ::= "real"
+type = "real";
 
-assignment ::= identifier ":=" expression
+assignment = identifier, ":=", expression;
 
-expression_statement ::= expression
+expression_statement = expression;
 
-comment ::= "#" comment_text? newline
+comment = "#", [ comment_text ], newline;
 
-comment_text ::= ( letter | digit | whitespace_char | symbol )*
+comment_text = { letter | digit | whitespace_char | symbol };
 
-expression ::= term
+expression = term;
 
-term ::= factor ( ( "+" | "-" ) factor )*
+term = factor, { term_op, factor };
 
-factor ::= power ( ( "*" | "/" | "%" ) power )*
+term_op = "+" | "-";
 
-power ::= unary ( ( "**" | "//" ) unary )?
+factor = power, { factor_op, power };
 
-unary ::= ( "+" | "-" )? primary
+factor_op = "*" | "/" | "%";
 
-primary ::= number_with_uncertainty
-          | variable
-          | function_call
-          | "(" expression ")"
+power = unary, [ power_op, unary ];
 
-number_with_uncertainty ::= number_scientific ( "+/-" number_scientific )?
+power_op = "**" | "//";
 
-function_call ::= identifier "(" argument_list? ")"
+unary = [ unary_op ], primary;
 
-argument_list ::= expression ( "," expression )*
+unary_op = "+" | "-";
 
-variable ::= identifier
+primary = number_with_uncertainty
+        | variable
+        | function_call
+        | "(", expression, ")";
 
-identifier ::= letter ( letter | digit | "_" )*
+number_with_uncertainty = number_scientific, [ uncertainty_op, number_scientific ];
 
-number ::= integer_part ( "." fractional_part )?
+uncertainty_op = "+/-";
 
-number_scientific ::= number ( exponent_part )?
+function_call = identifier, "(", [ argument_list ], ")";
 
-exponent_part ::= ( "e" | "E" ) ( "+" | "-" )? digit+
+argument_list = expression, { ",", expression };
 
-integer_part ::= digit+
+variable = identifier;
 
-fractional_part ::= digit+
+identifier = letter, { letter | digit | "_" };
 
-letter ::= "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" 
-         | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" 
-         | "u" | "v" | "w" | "x" | "y" | "z"
-         | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" 
-         | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" 
-         | "U" | "V" | "W" | "X" | "Y" | "Z"
+number = integer_part, [ ".", fractional_part ];
 
-digit ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+number_scientific = number, [ exponent_part ];
 
-newline ::= "\n" | "\r\n" | "\r"
+exponent_part = ( "e" | "E" ), [ unary_op ], digit, { digit };
 
-whitespace_char ::= " " | "\t"
+integer_part = digit, { digit };
 
-symbol ::= "!" | "@" | "$" | "^" | "&" | "?" | ":" | ";" | "," | "." | "<" | ">" | "~" | "`"
-         | "[" | "]" | "{" | "}" | pipe | backslash | single_quote | double_quote | "+" | "-" | "*" | "/" | "%" | "=" | "(" | ")"
+fractional_part = digit, { digit };
 
-pipe ::= "|"
-backslash ::= "\"
-single_quote ::= "'"
-double_quote ::= '"'
+letter = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" 
+       | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" 
+       | "u" | "v" | "w" | "x" | "y" | "z"
+       | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" 
+       | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" 
+       | "U" | "V" | "W" | "X" | "Y" | "Z";
 
-whitespace ::= whitespace_char | newline
+digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+
+newline = "\n" | "\r\n" | "\r";
+
+whitespace_char = " " | "\t";
+
+symbol = "!" | "@" | "$" | "^" | "&" | "?" | ":" | ";" | "," | "." | "<" | ">" | "~" | "`"
+       | "[" | "]" | "{" | "}" | "|" | "\" | "'" | '"' | "+" | "-" | "*" | "/" | "%" | "=" | "(" | ")";
+
+whitespace = whitespace_char | newline;

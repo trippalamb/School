@@ -51,6 +51,18 @@ impl SemanticAnalyzer {
         }
     }
 
+    pub fn import_standard_library(&mut self) {
+        let mut std_symbol_table = HashMap::new();
+        std_symbol_table.insert("sin".to_string(), VarInfo { var_type: VarType::RealFunction, declared_at: Position { line: 0, column: 0 } });
+        std_symbol_table.insert("cos".to_string(), VarInfo { var_type: VarType::RealFunction, declared_at: Position { line: 0, column: 0 } });
+        std_symbol_table.insert("sqrt".to_string(), VarInfo { var_type: VarType::RealFunction, declared_at: Position { line: 0, column: 0 } });
+        self.import_library(std_symbol_table);
+    }
+
+    pub fn import_library(&mut self, library: HashMap<String, VarInfo>) {
+        self.symbol_table.extend(library);
+    }
+
     pub fn analyze_statement(&mut self, statement: &Statement) {
         match statement {
             Statement::VarDeclaration { name, var_type, pos } => {

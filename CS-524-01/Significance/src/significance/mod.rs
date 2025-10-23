@@ -7,10 +7,13 @@ mod executor;
 mod standard_lib;
 
 #[cfg(test)]
-mod ast_parser_tests;
+mod tests_ast_parser;
 
 #[cfg(test)]
-mod executor_tests;
+mod tests_executor;
+
+#[cfg(test)]
+mod tests_tokenizer;
 
 pub use numbers::{Number, Real};
 pub use language_parser::Significance;

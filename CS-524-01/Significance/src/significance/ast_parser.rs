@@ -145,7 +145,7 @@ impl AstParser {
     }
 
     fn parse_starting_identifier(&mut self) -> Result<Statement, ParseError> {
-        let peek_token = self.peek_token();
+        let peek_token = self.peek_token_n(1);
                 
         match peek_token {
             Token::Assign => {
@@ -266,11 +266,11 @@ impl AstParser {
                 Ok(expr)
             },
             (Token::Identifier(name), Token::LeftParen) => {
-                self.parse_function_call(name)
+                self.parse_function_call(name, pos)
             }
             (Token::Identifier(name), _) => Ok(Expression::Variable(name.to_string())), 
             (Token::Number(n), Token::PlusMinus) => { 
-                self.parse_number_with_uncertainty(n) 
+                self.parse_number_with_uncertainty(n, pos) 
             },
             (Token::Number(n), _) => { 
                 Ok(Expression::NumberWithUncertainty { value: n, error: 0.0, pos }) 
@@ -280,9 +280,7 @@ impl AstParser {
 
     }
 
-    fn parse_number_with_uncertainty(&mut self, number: f64) -> Result<Expression, ParseError> {
-
-        let pos = self.current_position();
+    fn parse_number_with_uncertainty(&mut self, number: f64, pos: Position) -> Result<Expression, ParseError> {
 
         self.expect_token(Token::PlusMinus)?;
         match self.advance() {
@@ -296,9 +294,7 @@ impl AstParser {
 
     }
 
-    fn parse_function_call(&mut self, name: String) -> Result<Expression, ParseError> {
-
-        let pos = self.current_position();
+    fn parse_function_call(&mut self, name: String, pos: Position) -> Result<Expression, ParseError> {
 
         self.expect_token(Token::LeftParen)?;
         let args = self.parse_argument_list()?;
@@ -356,6 +352,14 @@ impl AstParser {
             &Token::EOF
         } else {
             &self.tokens[self.current].token
+        }
+    }
+
+    fn peek_token_n(&self, n: usize) -> &Token {
+        if n + self.current < self.tokens.len() {
+            return &self.tokens[n + self.current].token;
+        } else {
+            return &Token::EOF; 
         }
     }
 

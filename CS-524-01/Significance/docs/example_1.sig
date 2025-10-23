@@ -3,6 +3,7 @@
 {x : real} # this is the `x` variable
 {y : real} # this represents a change in `x`
 {z : real} # z is the next iteration of `x`
+{w : real} # w is the magnitude of `x` and `y`
 
 x := 12.3 +/- 0.5
 y := 2.6 +/- 0.2

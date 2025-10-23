@@ -1,25 +1,26 @@
 use crate::significance::tokenizer::{Token, TokenWithPos, Position};
+use serde::{Serialize, Deserialize};
 
 /// Abstract Syntax Tree node types
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Program {
     pub statements: Vec<Statement>,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Statement {
     VarDeclaration { name: String, var_type: VarType, pos: Position },
     Assignment { name: String, value: Expression, pos: Position },
     Expression(Expression),
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum VarType {
     Real,
     RealFunction
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Expression {
     NumberWithUncertainty { value: f64, error: f64, pos: Position },
     Variable(String),
@@ -28,7 +29,7 @@ pub enum Expression {
     FunctionCall { name: String, args: Vec<Expression>, pos: Position},
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum BinaryOp {
     Add,      // +
     Sub,      // -
@@ -39,7 +40,7 @@ pub enum BinaryOp {
     Root,     // //
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum UnaryOp {
     Plus,     // +
     Minus,    // -

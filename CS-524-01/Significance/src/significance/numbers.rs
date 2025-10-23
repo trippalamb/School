@@ -138,14 +138,14 @@ mod tests {
         assert!((result.error() - 0.0).abs() < EPSILON);
     }
 
-    // #[test]
-    // fn test_real_addition_w_uncertainty() {
-    //     let x = Real::with_error(5.5, 0.2);
-    //     let y = Real::with_error(3.2, 0.05);
-    //     let result = x + y;
-    //     assert!((result.value() - 8.7 ).abs() < EPSILON);
-    //     assert!((result.error() - 0.25).abs() < EPSILON);
-    // }
+    #[test]
+    fn test_real_addition_w_uncertainty() {
+        let x = Real::with_error(5.5, 0.2);
+        let y = Real::with_error(3.2, 0.05);
+        let result = x + y;
+        assert!((result.value() - 8.7 ).abs() < EPSILON);
+        assert!((result.error() - 0.20615528128088306).abs() < EPSILON);
+    }
 
     #[test]
     fn test_real_subtraction() {
@@ -156,14 +156,14 @@ mod tests {
         assert!((result.error() - 0.0).abs() < EPSILON);
     }
 
-    // #[test]
-    // fn test_real_subtraction_w_uncertainty() {
-    //     let z = Real::with_error(10.7, 0.08);
-    //     let y = Real::with_error(4.3, 0.12);
-    //     let result = z - y;
-    //     assert!((result.value() - 6.4).abs() < EPSILON);
-    //     assert!((result.error() - 0.2).abs() < EPSILON);
-    // }
+    #[test]
+    fn test_real_subtraction_w_uncertainty() {
+        let z = Real::with_error(10.7, 0.08);
+        let y = Real::with_error(4.3, 0.12);
+        let result = z - y;
+        assert!((result.value() - 6.4).abs() < EPSILON);
+        assert!((result.error() - 0.14422205101855956).abs() < EPSILON);
+    }
 
     #[test]
     fn test_real_multiplication() {

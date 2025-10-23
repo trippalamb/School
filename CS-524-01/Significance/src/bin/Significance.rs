@@ -48,7 +48,7 @@ fn run_repl() {
 fn run_file(filename: &str) {
     
     match Significance::parse_file(filename) {
-        Ok(result) => println!("{}", result),
+        Ok(_) => println!("{}", "Program executed successfully".to_string()),
         Err(e) => {
             eprintln!("Error: {}", e);
             process::exit(1);

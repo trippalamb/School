@@ -1,4 +1,5 @@
 use std::fmt;
+use serde::{Serialize, Deserialize};
 
 /// All possible tokens in the Significance language
 #[derive(Debug, Clone, PartialEq)]
@@ -67,7 +68,7 @@ impl fmt::Display for Token {
 }
 
 /// Position information for error reporting
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct Position {
     pub line: usize,
     pub column: usize,

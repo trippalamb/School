@@ -1,6 +1,6 @@
-use std::fs;
+use std::fs::{self, File};
 use crate::significance::tokenizer::{Tokenizer, Token, TokenWithPos};
-use crate::significance::ast_parser::{AstParser, ParseError};
+use crate::significance::ast_parser::{AstParser, ParseError, Program};
 use crate::significance::semantic_analyzer::SemanticAnalyzer;
 use crate::significance::executor::Executor;
 
@@ -22,7 +22,7 @@ impl Significance {
         }
     }
 
-    pub fn parse_repl(mut self,input: &str) -> Result<String, ParseError> {
+    pub fn parse_repl(mut self, input: &str) -> Result<String, ParseError> {
 
         let input = input.trim();
         let mut tokenizer = Tokenizer::new(input);
@@ -57,16 +57,25 @@ impl Significance {
         )
     }
 
+
     /// Parse and evaluate a file containing Significance language code
     pub fn parse_file(filename: &str) -> Result<i32, String> {
-        let _contents = fs::read_to_string(filename)
+        let contents = fs::read_to_string(filename)
             .map_err(|e| format!("Failed to read file '{}': {}", filename, e))?;
         
-        
-        // TODO: Implement actual parsing and evaluation
+        let mut tokenizer = Tokenizer::new(contents.as_str());
+        let tokens = tokenizer.tokenize()?;
+
+        let ast = AstParser::new().parse_program(tokens).map_err(|e| format!("Failed to parse file '{}': {}", filename, e))?;
+
+        write_ast_to_file(&ast, "ast.json").map_err(|e| format!("Failed to write AST to file: {}", e))?;
+
+        SemanticAnalyzer::new().analyze_program(&ast);
+        Executor::new().execute_program(&ast);
         
         Ok(0) // placeholder
     }
+
     
     /// Parse and evaluate a string containing Significance language code
     pub fn parse_string(_input: &str) -> Result<i32, String> {
@@ -76,24 +85,8 @@ impl Significance {
 }
 
 
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_parse_file_stub() {
-        // This should work but just return 0
-        // We'll test with a non-existent file to test error handling
-        match Significance::parse_file("nonexistent.sig") {
-            Err(_) => assert!(true), // Expected to fail for non-existent file
-            Ok(result) => assert_eq!(result, 0),
-        }
-    }
-
-    #[test]
-    #[should_panic(expected = "String parsing not yet implemented")]
-    fn test_parse_string_stub() {
-        let _result = Significance::parse_string("x = 5 + 3");
-    }
+fn write_ast_to_file(program: &Program, filename: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let file = File::create(filename)?;
+    serde_json::to_writer_pretty(file, program)?;
+    Ok(())
 }

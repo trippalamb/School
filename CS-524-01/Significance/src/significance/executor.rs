@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use crate::Real;
 use crate::significance::ast_parser::{Program, Statement, VarType, Expression, BinaryOp, UnaryOp};
 use crate::significance::tokenizer::Position;
 use crate::significance::std_lib_call;
@@ -11,12 +12,12 @@ pub enum RunTimeError {
 #[derive(Debug, Clone)]
 pub struct VarRunTime{
     var_type: VarType,
-    value: f64
+    value: Real
 }
 
 impl VarRunTime {
-    pub fn get_value(&self) -> f64 {
-        self.value
+    pub fn get_value(&self) -> &Real {
+        &self.value
     }
 }
 
@@ -57,7 +58,8 @@ impl Executor{
                 self.assign_variable(name, value, pos);
             }
             Statement::Expression(expression) => {
-                self.evaluate_expression(expression);
+                let value = self.evaluate_expression(expression);
+                print!("{}\n", value);
             }
         }
     }
@@ -68,7 +70,7 @@ impl Executor{
             name.to_string(),
             VarRunTime {
                 var_type: var_type.clone(),
-                value: 0.0
+                value: Real::new(0.0)
             }
         );
     }
@@ -79,9 +81,9 @@ impl Executor{
         var.value = value;
     }
 
-    pub fn evaluate_expression(&mut self, expression: &Expression) -> f64 {
+    pub fn evaluate_expression(&mut self, expression: &Expression) -> Real {
         match expression {
-            Expression::NumberWithUncertainty { value, error:_, pos:_ } => value.clone(),
+            Expression::NumberWithUncertainty { value, error, pos:_ } => Real::with_error(value.clone(), error.clone()),
             Expression::Variable(name) => {
                 let var = self.run_time_vars.get(name).expect("Variable not declared");
                 var.value
@@ -95,7 +97,7 @@ impl Executor{
                     BinaryOp::Sub => left_value - right_value,
                     BinaryOp::Mul => left_value * right_value,
                     BinaryOp::Div => {
-                        if right_value == 0.0 {
+                        if right_value == Real::new(0.0) {
                             self.errors.push(RunTimeError::DivisionByZero(pos.clone()));
                         }
                         left_value / right_value
@@ -113,7 +115,7 @@ impl Executor{
                 }
             },
             Expression::FunctionCall { name, args, pos } => {
-                let vals: Vec<f64> = args.iter().map(|arg| self.evaluate_expression(arg)).collect();
+                let vals: Vec<Real> = args.iter().map(|arg| self.evaluate_expression(arg)).collect();
                 std_lib_call(name, &vals, pos)
             }
 

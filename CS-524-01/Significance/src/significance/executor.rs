@@ -11,7 +11,7 @@ pub enum RunTimeError {
 
 #[derive(Debug, Clone)]
 pub struct VarRunTime{
-    var_type: VarType,
+    //var_type: VarType,
     value: Real
 }
 
@@ -64,12 +64,12 @@ impl Executor{
         }
     }
 
-    fn declare_variable(&mut self, name: &str, var_type: &VarType, _: &Position) {
+    pub fn declare_variable(&mut self, name: &str, _var_type: &VarType, _: &Position) {
         //due to semantic analyzer I already know that the variable is not previously declared
         self.run_time_vars.insert(
             name.to_string(),
             VarRunTime {
-                var_type: var_type.clone(),
+                //var_type: var_type.clone(),
                 value: Real::new(0.0)
             }
         );
@@ -86,7 +86,7 @@ impl Executor{
             Expression::NumberWithUncertainty { value, error, pos:_ } => Real::with_error(value.clone(), error.clone()),
             Expression::Variable(name) => {
                 let var = self.run_time_vars.get(name).expect("Variable not declared");
-                var.value
+                var.value.clone()
             },
             Expression::Binary { left, op, right, pos } => {
                 let left_value = self.evaluate_expression(left);
@@ -103,8 +103,8 @@ impl Executor{
                         left_value / right_value
                     },
                     BinaryOp::Mod => left_value % right_value,
-                    BinaryOp::Power => left_value.powf(right_value),
-                    BinaryOp::Root => left_value.powf(1.0 / right_value),
+                    BinaryOp::Power => left_value.power(right_value),
+                    BinaryOp::Root => left_value.root(right_value),
                 }
             },
             Expression::Unary { op, operand, pos:_ } => {

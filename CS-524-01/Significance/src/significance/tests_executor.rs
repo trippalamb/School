@@ -1,6 +1,7 @@
 use super::*;
 use crate::significance::ast_parser::{Program, Statement, VarType, Expression, BinaryOp, UnaryOp};
 use crate::significance::tokenizer::Position;
+use crate::significance::numbers::{Real, assert_real};
 
 // Helper function to create a dummy position for testing
 fn dummy_pos() -> Position {
@@ -31,7 +32,10 @@ fn test_variable_declaration() {
     executor.execute_statement(&declaration);
     
     let var = executor.get_var("x").unwrap();
-    assert_eq!(var.get_value(), 0.0); // Default value should be 0.0
+    let actual = var.get_value();
+    let expected = Real::new(0.0);
+    
+    assert_real(&actual, expected);
 }
 
 #[test]
@@ -60,7 +64,9 @@ fn test_variable_assignment() {
     executor.execute_statement(&assignment);
     
     let var = executor.get_var("x").unwrap();
-    assert_eq!(var.get_value(), 5.5);
+    let actual = var.get_value();
+    let expected = Real::with_error(5.5, 0.1);
+    assert_real(&actual, expected);
 }
 
 #[test]
@@ -73,8 +79,9 @@ fn test_evaluate_number() {
         pos: dummy_pos(),
     };
     
-    let result = executor.evaluate_expression(&number_expr);
-    assert_eq!(result, 42.5);
+    let actual = executor.evaluate_expression(&number_expr);
+    let expected = Real::with_error(42.5, 0.5);
+    assert_real(&actual, expected);
 }
 
 #[test]
@@ -102,8 +109,9 @@ fn test_evaluate_variable() {
     
     // Now evaluate a variable expression
     let var_expr = Expression::Variable("test_var".to_string());
-    let result = executor.evaluate_expression(&var_expr);
-    assert_eq!(result, 3.14);
+    let actual = executor.evaluate_expression(&var_expr);
+    let expected = Real::with_error(3.14, 0.01);
+    assert_real(&actual, expected);
 }
 
 #[test]
@@ -126,7 +134,9 @@ fn test_binary_operations() {
         pos: dummy_pos(),
     };
     
-    assert_eq!(executor.evaluate_expression(&add_expr), 15.0);
+    let actual = executor.evaluate_expression(&add_expr);
+    let expected = Real::new(15.0);
+    assert_real(&actual, expected);
     
     // Test subtraction
     let sub_expr = Expression::Binary {
@@ -144,7 +154,9 @@ fn test_binary_operations() {
         pos: dummy_pos(),
     };
     
-    assert_eq!(executor.evaluate_expression(&sub_expr), 7.0);
+    let actual = executor.evaluate_expression(&sub_expr);
+    let expected = Real::new(7.0);
+    assert_real(&actual, expected);
     
     // Test multiplication
     let mul_expr = Expression::Binary {
@@ -162,7 +174,9 @@ fn test_binary_operations() {
         pos: dummy_pos(),
     };
     
-    assert_eq!(executor.evaluate_expression(&mul_expr), 12.0);
+    let actual = executor.evaluate_expression(&mul_expr);
+    let expected = Real::new(12.0);
+    assert_real(&actual, expected);
     
     // Test division
     let div_expr = Expression::Binary {
@@ -180,7 +194,9 @@ fn test_binary_operations() {
         pos: dummy_pos(),
     };
     
-    assert_eq!(executor.evaluate_expression(&div_expr), 5.0);
+    let actual = executor.evaluate_expression(&div_expr);
+    let expected = Real::new(5.0);
+    assert_real(&actual, expected);
 }
 
 #[test]
@@ -203,7 +219,9 @@ fn test_power_and_root_operations() {
         pos: dummy_pos(),
     };
     
-    assert_eq!(executor.evaluate_expression(&power_expr), 8.0);
+    let actual = executor.evaluate_expression(&power_expr);
+    let expected = Real::new(8.0);
+    assert_real(&actual, expected);
     
     // Test root (8 // 3 = 2, since 8^(1/3) = 2)
     let root_expr = Expression::Binary {
@@ -221,7 +239,9 @@ fn test_power_and_root_operations() {
         pos: dummy_pos(),
     };
     
-    assert_eq!(executor.evaluate_expression(&root_expr), 2.0);
+    let actual = executor.evaluate_expression(&root_expr);
+    let expected = Real::new(2.0);
+    assert_real(&actual, expected);
 }
 
 #[test]
@@ -243,7 +263,9 @@ fn test_modulus_operation() {
         pos: dummy_pos(),
     };
     
-    assert_eq!(executor.evaluate_expression(&mod_expr), 2.0);
+    let actual = executor.evaluate_expression(&mod_expr);
+    let expected = Real::new(2.0);
+    assert_real(&actual, expected);
 }
 
 #[test]
@@ -266,7 +288,8 @@ fn test_division_by_zero() {
     };
     
     let result = executor.evaluate_expression(&div_by_zero);
-    assert!(result.is_infinite());
+    assert!(result.value().is_infinite());
+    assert!(result.error().is_infinite());
     
     let errors = executor.get_errors();
     // Check that error was recorded
@@ -320,8 +343,9 @@ fn test_complex_expression_with_variables() {
         pos: dummy_pos(),
     };
     
-    let result = executor.evaluate_expression(&complex_expr);
-    assert_eq!(result, 17.0);
+    let actual = executor.evaluate_expression(&complex_expr);
+    let expected = Real::new(17.0);
+    assert_real(&actual, expected);
 }
 
 #[test]
@@ -357,7 +381,9 @@ fn test_execute_program() {
     executor.execute_program(&program);
     
     let result_var = executor.get_var("result").unwrap();
-    assert_eq!(result_var.get_value(), 20.0);
+    let actual = result_var.get_value();
+    let expected = Real::new(20.0);
+    assert_real(&actual, expected);
 }
 
 #[test]
@@ -392,8 +418,9 @@ fn test_unary_operations() {
         pos: dummy_pos(),
     };
     
-    let result = executor.evaluate_expression(&unary_expr);
-    assert_eq!(result, -5.0);
+    let actual = executor.evaluate_expression(&unary_expr);
+    let expected = Real::new(-5.0);
+    assert_real(&actual, expected);
 }
 
 #[test]

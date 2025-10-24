@@ -5,37 +5,7 @@
         "name": "x",
         "var_type": "Real",
         "pos": {
-          "line": 3,
-          "column": 1
-        }
-      }
-    },
-    {
-      "VarDeclaration": {
-        "name": "y",
-        "var_type": "Real",
-        "pos": {
-          "line": 4,
-          "column": 1
-        }
-      }
-    },
-    {
-      "VarDeclaration": {
-        "name": "z",
-        "var_type": "Real",
-        "pos": {
-          "line": 5,
-          "column": 1
-        }
-      }
-    },
-    {
-      "VarDeclaration": {
-        "name": "w",
-        "var_type": "Real",
-        "pos": {
-          "line": 6,
+          "line": 1,
           "column": 1
         }
       }
@@ -45,126 +15,34 @@
         "name": "x",
         "value": {
           "NumberWithUncertainty": {
-            "value": 12.3,
-            "error": 0.5,
+            "value": 2.1,
+            "error": 0.1,
             "pos": {
-              "line": 8,
+              "line": 3,
               "column": 6
             }
           }
         },
         "pos": {
-          "line": 8,
+          "line": 3,
           "column": 1
         }
       }
     },
     {
-      "Assignment": {
-        "name": "y",
-        "value": {
-          "NumberWithUncertainty": {
-            "value": 2.6,
-            "error": 0.2,
-            "pos": {
-              "line": 9,
-              "column": 6
-            }
-          }
-        },
-        "pos": {
-          "line": 9,
-          "column": 1
-        }
-      }
-    },
-    {
-      "Assignment": {
-        "name": "z",
-        "value": {
-          "Binary": {
-            "left": {
+      "Expression": {
+        "FunctionCall": {
+          "name": "sin",
+          "args": [
+            {
               "Variable": "x"
-            },
-            "op": "Add",
-            "right": {
-              "Variable": "y"
-            },
-            "pos": {
-              "line": 10,
-              "column": 6
             }
+          ],
+          "pos": {
+            "line": 4,
+            "column": 1
           }
-        },
-        "pos": {
-          "line": 10,
-          "column": 1
         }
-      }
-    },
-    {
-      "Expression": {
-        "Variable": "z"
-      }
-    },
-    {
-      "Assignment": {
-        "name": "w",
-        "value": {
-          "Binary": {
-            "left": {
-              "Binary": {
-                "left": {
-                  "Variable": "x"
-                },
-                "op": "Mul",
-                "right": {
-                  "Variable": "x"
-                },
-                "pos": {
-                  "line": 12,
-                  "column": 6
-                }
-              }
-            },
-            "op": "Add",
-            "right": {
-              "Binary": {
-                "left": {
-                  "Variable": "y"
-                },
-                "op": "Power",
-                "right": {
-                  "NumberWithUncertainty": {
-                    "value": 2.0,
-                    "error": 0.0,
-                    "pos": {
-                      "line": 12,
-                      "column": 15
-                    }
-                  }
-                },
-                "pos": {
-                  "line": 12,
-                  "column": 12
-                }
-              }
-            },
-            "pos": {
-              "line": 12,
-              "column": 6
-            }
-          }
-        },
-        "pos": {
-          "line": 12,
-          "column": 1
-        }
-      }
-    },
-    {
-      "Expression": {
-        "Variable": "w"
       }
     }
   ]

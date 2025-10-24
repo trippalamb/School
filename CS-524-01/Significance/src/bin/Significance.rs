@@ -39,7 +39,7 @@ fn run_repl() {
             Ok(result) => println!("{}", result),
             Err(e) => {
                 eprintln!("Error: {}", e);
-                process::exit(1);
+                process::exit(0);
             }
         }
     }
@@ -51,7 +51,7 @@ fn run_file(filename: &str) {
         Ok(_) => println!("{}", "Program executed successfully".to_string()),
         Err(e) => {
             eprintln!("Error: {}", e);
-            process::exit(1);
+            process::exit(0);
         }
     }
 }

@@ -1,45 +1,23 @@
 {
   "statements": [
     {
-      "VarDeclaration": {
-        "name": "x",
-        "var_type": "Real",
-        "pos": {
-          "line": 1,
-          "column": 1
-        }
-      }
-    },
-    {
-      "Assignment": {
-        "name": "x",
-        "value": {
-          "NumberWithUncertainty": {
-            "value": 2.1,
-            "error": 0.1,
-            "pos": {
-              "line": 3,
-              "column": 6
-            }
-          }
-        },
-        "pos": {
-          "line": 3,
-          "column": 1
-        }
-      }
-    },
-    {
       "Expression": {
         "FunctionCall": {
           "name": "sin",
           "args": [
             {
-              "Variable": "x"
+              "NumberWithUncertainty": {
+                "value": 2.1,
+                "error": 0.1,
+                "pos": {
+                  "line": 1,
+                  "column": 5
+                }
+              }
             }
           ],
           "pos": {
-            "line": 4,
+            "line": 1,
             "column": 1
           }
         }

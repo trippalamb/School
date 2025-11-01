@@ -28,7 +28,7 @@ fn run_repl() {
         match io::stdin().read_line(&mut input) {
             Ok(0) => break,  // EOF (Ctrl+D on Unix, Ctrl+Z on Windows)
             Ok(_) => { /* continue processing */ },
-            Err(e) => eprintln!("Error reading input: {}", e),
+            Err(e) => println!("Error reading input: {}", e),
         }
         
         if input.trim() == "exit()" { break; }
@@ -38,8 +38,7 @@ fn run_repl() {
         match parser.parse_repl(&input) {
             Ok(result) => println!("{}", result),
             Err(e) => {
-                eprintln!("Error: {}", e);
-                process::exit(0);
+                println!("Error: {}", e);
             }
         }
     }

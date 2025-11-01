@@ -6,7 +6,8 @@ use crate::significance::std_lib_call;
 
 #[derive(Debug, Clone)]
 pub enum RunTimeError {
-    DivisionByZero(Position)
+    DivisionByZero(Position),
+    UndefinedVariable(String, Position)
 }
 
 #[derive(Debug, Clone)]
@@ -75,54 +76,79 @@ impl Executor{
         );
     }
 
-    fn assign_variable(&mut self, name: &str, value: &Expression, _: &Position) {
+    fn assign_variable(&mut self, name: &str, value: &Expression, pos: &Position) {
         let value = self.evaluate_expression(value);
-        let var = self.run_time_vars.get_mut(name).expect("Variable not declared");
-        var.value = value;
+        
+        if let Some(var) = self.run_time_vars.get_mut(name) {
+            var.value = value;
+        } else {
+            self.errors.push(RunTimeError::UndefinedVariable(name.to_string(), pos.clone()));
+        }
     }
 
     pub fn evaluate_expression(&mut self, expression: &Expression) -> Real {
         match expression {
             Expression::NumberWithUncertainty { value, error, pos:_ } => Real::with_error(value.clone(), error.clone()),
-            Expression::Variable(name) => {
-                let var = self.run_time_vars.get(name).expect("Variable not declared");
-                var.value.clone()
-            },
+            Expression::Variable(name) => self.evaluate_variable(name),
             Expression::Binary { left, op, right, pos } => {
-                let left_value = self.evaluate_expression(left);
-                let right_value = self.evaluate_expression(right);
-
-                match op {
-                    BinaryOp::Add => left_value + right_value,
-                    BinaryOp::Sub => left_value - right_value,
-                    BinaryOp::Mul => left_value * right_value,
-                    BinaryOp::Div => {
-                        if right_value == Real::new(0.0) {
-                            self.errors.push(RunTimeError::DivisionByZero(pos.clone()));
-                        }
-                        left_value / right_value
-                    },
-                    BinaryOp::Mod => left_value % right_value,
-                    BinaryOp::Power => left_value.power(right_value),
-                    BinaryOp::Root => left_value.root(right_value),
-                }
+                self.evaluate_expression_binary(left, op, right, pos)
             },
-            Expression::Unary { op, operand, pos:_ } => {
-                let operand_value = self.evaluate_expression(operand);
-                match op {
-                    UnaryOp::Plus => operand_value,
-                    UnaryOp::Minus => -operand_value,
-                }
+            Expression::Unary { op, operand, pos } => {
+                self.evaluate_expression_unary(op, operand, pos)
             },
             Expression::FunctionCall { name, args, pos } => {
-                let vals: Vec<Real> = args.iter().map(|arg| self.evaluate_expression(arg)).collect();
-                std_lib_call(name, &vals, pos)
+                self.evaluate_function_call(name, args, pos)
             }
-
         }
+    }
+
+    fn evaluate_variable(&mut self, name: &str) -> Real {
+        if let Some(var) = self.run_time_vars.get(name) {
+            var.value.clone()
+        } else {
+            self.errors.push(RunTimeError::UndefinedVariable(
+                name.to_string(),
+                Position { line: 0, column: 0 } // Position not available here
+            ));
+            Real::new(0.0) // Return default value after logging error
+        }
+    }
+
+    fn evaluate_expression_binary(&mut self, left: &Expression, op: &BinaryOp, right: &Expression, pos: &Position) -> Real {
+        let left_value = self.evaluate_expression(left);
+        let right_value = self.evaluate_expression(right);
+
+        match op {
+            BinaryOp::Add => left_value + right_value,
+            BinaryOp::Sub => left_value - right_value,
+            BinaryOp::Mul => left_value * right_value,
+            BinaryOp::Div => {
+                if right_value == Real::new(0.0) {
+                    self.errors.push(RunTimeError::DivisionByZero(pos.clone()));
+                }
+                left_value / right_value
+            },
+            BinaryOp::Mod => left_value % right_value,
+            BinaryOp::Power => left_value.power(right_value),
+            BinaryOp::Root => left_value.root(right_value),
+        }
+    }
+
+    fn evaluate_expression_unary(&mut self, op: &UnaryOp, operand: &Expression, _pos: &Position) -> Real {
+        let operand_value = self.evaluate_expression(operand);
+        match op {
+            UnaryOp::Plus => operand_value,
+            UnaryOp::Minus => -operand_value,
+        }
+    }
+
+    fn evaluate_function_call(&mut self, name: &str, args: &[Expression], pos: &Position) -> Real {
+        let vals: Vec<Real> = args.iter().map(|arg| self.evaluate_expression(arg)).collect();
+        std_lib_call(name, &vals, pos)
     }
 
     pub fn get_errors(&self) -> Vec<RunTimeError> {
         self.errors.clone()
     }
+
 }

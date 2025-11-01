@@ -3,6 +3,7 @@ use crate::significance::tokenizer::{Tokenizer, Token, TokenWithPos};
 use crate::significance::ast_parser::{AstParser, ParseError, Program};
 use crate::significance::semantic_analyzer::SemanticAnalyzer;
 use crate::significance::executor::Executor;
+use crate::significance::RunTimeError;
 
 
 /// Main parser and evaluator for the Significance language
@@ -43,6 +44,18 @@ impl Significance {
         let ast = self.parser.parse_statement_from_tokens(tokens)?;
         self.analyzer.analyze_statement(&ast);
         self.executor.execute_statement(&ast);
+
+        // Check for runtime errors
+        let errors = self.executor.get_errors();
+        if let Some(first_error) = errors.first() {
+            let (message, position) = match first_error {
+                RunTimeError::DivisionByZero(pos) => 
+                    ("Division by zero".to_string(), pos.clone()),
+                RunTimeError::UndefinedVariable(name, pos) => 
+                    (format!("Undefined variable: {}", name), pos.clone()),
+            };
+            return Err(ParseError { message, position });
+        }
 
         Ok("".to_string())
     }

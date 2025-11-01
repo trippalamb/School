@@ -4,7 +4,7 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug significance binary",
+            "name": "Significance File",
             "cargo": {
                 "args": ["build", "--bin=significance"],
                 "filter": {
@@ -13,6 +13,19 @@
                 }
             },
             "args": ["docs/example_1.sig"],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Significance REPL",
+            "cargo": {
+                "args": ["build", "--bin=significance"],
+                "filter": {
+                    "name": "significance",
+                    "kind": "bin"
+                }
+            },
             "cwd": "${workspaceFolder}"
         },
         {

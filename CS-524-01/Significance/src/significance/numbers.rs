@@ -33,11 +33,29 @@ impl Real {
     }
     
     pub fn power(&self, other: Self) -> Self {
-        return Self{value:self.value.powf(other.value), error: 0.0};
+        let value = self.value().powf(other.value());
+    
+        // If exponent has no uncertainty, use simpler formula
+        if other.error() == 0.0 {
+            let n = other.value();
+            let error = n.abs() * self.value().powf(n - 1.0) * self.error();
+            return Real::with_error(value, error);
+        }
+        
+        // General case: both base and exponent have uncertainty
+        // (σ_z/z)² = (y·σ_x/x)² + (ln(x)·σ_y)²
+        let rel_error_from_base = other.value() * self.error() / self.value();
+        let rel_error_from_exp = self.value().ln() * other.error();
+        let relative_error = (rel_error_from_base.powi(2) + rel_error_from_exp.powi(2)).sqrt();
+        let error = value.abs() * relative_error;
+        
+        Real::with_error(value, error)
     }
 
     pub fn root(&self, other: Self) -> Self {
-        return Self{value:self.value.powf(1.0/other.value), error: 0.0};
+        // This is just x^(1/n), so reuse power implementation
+        let reciprocal_n = Real::with_error(1.0 / other.value(), 0.0);
+        self.power(reciprocal_n)
     }
 }
 
@@ -140,8 +158,18 @@ impl Rem for Real {
     type Output = Self;
 
     fn rem(self, other: Self) -> Self {
-        let combined_error = 0.0;
-        Self::with_error(self.value % other.value, combined_error)
+        // If divisor has no uncertainty, just pass through input uncertainty
+        if other.error() == 0.0 {
+            let value = self.value() % other.value();
+            // Uncertainty unchanged: σ_z ≈ σ_x
+            return Real::with_error(value, self.error());
+        }
+        
+        // General case with both uncertain: uncertainty is complex
+        // since this is a toy language, conservative approach of using max uncertainty is used
+        let value = self.value() % other.value();
+        let error = self.error().max(other.error());
+        Real::with_error(value, error)
     }
 }
 

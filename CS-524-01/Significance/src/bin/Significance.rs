@@ -4,7 +4,6 @@ use std::io::{self, Write};
 
 use significance::Significance;
 
-//TODO: we need to implement uncertainty for power, root, mod, sin, cos, and sqrt functions
 //TODO: put name, class, and project info at top of every file
 //TODO: go comment everything
 //TODO: write implementation design document

@@ -3,20 +3,21 @@ use crate::{Number, Real};
 
 pub fn std_lib_call(name: &str, args: &Vec<Real>, pos: &Position) -> Real {
 
-    //TODO: add uncertainty calculation for std lib functions
     match name {
 
         "sin" => {
             if args.len() != 1 {panic!("Std lib function <sin> takes 1 argument @ {}", pos.line)};
-            Real::with_error(args[0].value().sin(), 0.0)
+            let error = args[0].value().cos().abs() * args[0].error();
+            Real::with_error(args[0].value().sin(), error)
         },
         "cos" => {
             if args.len() != 1 {panic!("Std lib function <cos> takes 1 argument @ {}", pos.line)};
-            Real::with_error(args[0].value().cos(), 0.0)
+            let error = args[0].value().sin().abs() * args[0].error();
+            Real::with_error(args[0].value().cos(), error)
         },
         "sqrt" => {
             if args.len() != 1 {panic!("Std lib function <sqrt> takes 1 argument @ {}", pos.line)};
-            Real::with_error(args[0].value().sqrt(), 0.0)
+            args[0].root(Real::new(2.0))
         },
         _ => panic!("Unknown std lib function {}", name)
     }

@@ -296,6 +296,7 @@ fn test_division_by_zero() {
     assert_eq!(errors.len(), 1);
     match &errors[0] {
         RunTimeError::DivisionByZero(_) => {}, // Expected
+        _ => panic!("Expected DivisionByZero error"),
     }
 }
 

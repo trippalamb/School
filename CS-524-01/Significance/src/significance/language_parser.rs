@@ -23,7 +23,7 @@ impl Significance {
         }
     }
 
-    pub fn parse_repl(mut self, input: &str) -> Result<String, ParseError> {
+    pub fn parse_repl(&mut self, input: &str) -> Result<String, ParseError> {
 
         let input = input.trim();
         let mut tokenizer = Tokenizer::new(input);

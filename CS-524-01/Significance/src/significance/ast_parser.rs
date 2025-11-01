@@ -105,7 +105,7 @@ impl AstParser {
     
     /// Parse a single statement
     pub fn parse_statement(&mut self) -> Result<Statement, ParseError> {
-        
+        self.current = 0;
         match self.current_token() {
             Token::LeftBrace => {
                 self.parse_var_declaration()
@@ -122,7 +122,7 @@ impl AstParser {
     }
 
     pub fn parse_statement_from_tokens(&mut self, tokens: Vec<TokenWithPos>) -> Result<Statement, ParseError> {
-
+        self.current = 0;
         self.tokens = tokens;
         self.parse_statement()
     }

@@ -21,6 +21,7 @@ fn main() {
 
 fn run_repl() {
     print!("Significance REPL\n");
+    let mut parser = Significance::new();
     loop {
         let mut input = String::new();
         print!("> ");
@@ -34,7 +35,6 @@ fn run_repl() {
         if input.trim() == "exit()" { break; }
         if input.trim() == "" { continue; }
 
-        let parser = Significance::new();
         match parser.parse_repl(&input) {
             Ok(result) => println!("{}", result),
             Err(e) => {

@@ -4,7 +4,10 @@ use std::io::{self, Write};
 
 use significance::Significance;
 
-//TODO: we are losing the symbol table between repl loops
+//TODO: we need to implement uncertainty for power, root, mod, sin, cos, and sqrt functions
+//TODO: put name, class, and project info at top of every file
+//TODO: go comment everything
+//TODO: write implementation design document
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -42,6 +45,7 @@ fn run_repl() {
             }
         }
     }
+    process::exit(0);
 }
 
 fn run_file(filename: &str) {

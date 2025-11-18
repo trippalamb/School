@@ -1,3 +1,40 @@
+=begin
+
+Ruby-MiltonLamb.rb
+Author: Milton Lamb
+Date: 2025 November 18
+
+Application: Course Registration System
+
+Usage: ruby Ruby-MiltonLamb.rb
+
+Description: This is a registration system that reads a file of student and course 
+information and outputs a report of all students and courses in the system.
+
+The application reads in a file called "register.txt" that contains three sections:
+- students (id name)
+- courses (crn name)
+- enrollments (id crn)
+
+The application then builds two hashes (one for students and one for courses)
+from the file. The hashes use a `(string, Student)` and `(string, Course)` key-value
+pairs, respectively. Each instance of `Student` holds a list of references to the
+`Course` instances that the student is enrolled in. The reverse is also true.
+
+The `Student` instances are built upon parsing the first (students) section of the file.
+The `Course` instances are built upon parsing the second (courses) section of the file.
+These references are built upon parsing the third (enrollments) section of the file.
+
+After the local relational database is built, the application outputs a report
+using the `to_s` methods of the `Student` and `Course` instances.
+
+During the parsing of the file, state is managed by an array of lambdas. Each lambda
+is responsible for processing a section of the file. Upon a blank line, the index of 
+the lambda array is incremented. Moving file parsing into the next state.
+
+=end
+
+
 # Represents a course in the registration system.
 class Course
 
@@ -217,6 +254,7 @@ def main
   ]
 
   parse_register(process, students, courses)
+  
   puts "\n################ Students ################\n"
   puts students.values
   puts "\n################ Courses ################\n"
@@ -226,3 +264,40 @@ def main
 end
 
 main()
+
+=begin
+
+I hadn't written anything in Ruby since I have become what I would call 
+a 'proper' programmer with a wide range of experience. I didn't learn much
+from writing the algorithm, but that is largely due to my range of experience
+parsing and manupulating data. This project is fairly straight forward, as far
+as real world data tends to go.
+
+I definitely did learn Ruby syntax that I wasn't familar with having not tried
+it out in over a decade. From what was needed for this project, Ruby seems to
+work reasonably similar to Python and JavaScript. It highly flexible and forgiving
+from a typing perspective which makes it excellent for prototyping and small 
+projects, but I can't see myself ever wanting to use it for a large project. 
+That may be my own biases though, as I prefer strongly typed languages for the 
+speed and reliability they provide.
+
+I found it dissappointing that a language that is touted as 'everything is an 
+object' doesn't support first class functions, instead requiring some kind of 
+wrapper to pass them around. This isn't bad, but I found it jarring from the 
+way Ruby describes itself. This is a lack of orthogonality I expected to be present. 
+I thought the use of '@' sigils was interesting and less verbose, more readable 
+and writable than using `this` or `self`. Ruby's required naming conventions are 
+interesting though I prefer the more modern method implemented by Rust and Python 
+to use IDE functionality to enforce a particular convention. The implementation of
+'true' global values is fascinating since most languages don't have truly global 
+variables. They are most often namespace or module scoped. Even in JS which supports
+them this is more of an side-effect of the language's design rather than intentional. 
+JS (ES6) has even removed global variables as the default behavior.
+
+The built-in reflection is always a nice feature for niche cases; however, the overhead
+often makes it not worth it. This project didn't require the use of what seems to 
+possibly be Ruby's most unique feature of being able to compactly generate domain 
+specific languages using the `method_missing` method. This is a feature of Ruby 
+I'd be interested in examining further in the future.
+
+=end

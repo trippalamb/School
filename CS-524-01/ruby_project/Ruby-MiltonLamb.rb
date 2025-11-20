@@ -3,6 +3,7 @@
 Ruby-MiltonLamb.rb
 Author: Milton Lamb
 Date: 2025 November 18
+CS-524 Fall 2025
 
 Application: Course Registration System
 

@@ -89,12 +89,6 @@ impl Significance {
         Ok(0) // placeholder
     }
 
-    
-    /// Parse and evaluate a string containing Significance language code
-    pub fn parse_string(_input: &str) -> Result<i32, String> {
-        // TODO: Implement actual parsing and evaluation
-        unimplemented!("String parsing not yet implemented")
-    }
 }
 
 

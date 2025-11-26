@@ -79,7 +79,7 @@ impl fmt::Display for Real {
         if self.error == 0.0 {
             write!(f, "{}", self.value)
         } else {
-            write!(f, "{} ± {}", self.value, self.error)
+            write!(f, "{} +/- {}", self.value, self.error)
         }
     }
 }

@@ -1,3 +1,10 @@
+//------------------
+// (Tripp) Milton Lamb
+// Fall 2025, Nov 29 2025
+// CS-524: Programming Languages
+// Final Project
+//------------------
+
 //! High-level interface for the Significance language interpreter.
 //!
 //! This module provides the main `Significance` struct that orchestrates the complete
@@ -113,7 +120,7 @@ impl Significance {
     pub fn new() -> Self {
         let mut analyzer = SemanticAnalyzer::new();
         analyzer.import_standard_library();
-        
+
         Self {
             parser: AstParser::new(),
             analyzer,

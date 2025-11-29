@@ -1,3 +1,10 @@
+//------------------
+// (Tripp) Milton Lamb
+// Fall 2025, Nov 29 2025
+// CS-524: Programming Languages
+// Final Project
+//------------------
+
 //! Lexical analysis (tokenization) for the Significance language.
 //!
 //! This module provides a tokenizer that converts raw source text into a stream of tokens.

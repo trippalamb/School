@@ -231,7 +231,37 @@ The semantic analyzer holds onto its own symbol table, and the executor holds on
 
 ### 3.3 Real Type
 
-There is only one native type in the language as implemented: the `Real` type. It largely behaves as double precision floating-point type with an additional uncertainty term. If the uncertainty is absent or is `0.0`, it basically wraps the Rust `f64` type. The uncertainty calculation method is based on the operation being applied to the numbers in question. These methods are explained the operators and functions sections.
+There is only one native type in the language as implemented: the `Real` type. It largely behaves as double precision floating-point type with an additional uncertainty term. If the uncertainty is absent or is `0.0`, it basically wraps the Rust `f64` type. The uncertainty calculation method is based on the operation being applied to the numbers in question. The individual methods are explained the operators and functions sections above. The `Real` type supports binary operations: addition (`+`), subtraction (`-`), multiplication(`*`), division (`/`), modulus(`%`), power(`**`), and root(`//`); unary positive(`+`) and negative(`-`); and trigonometric functions sine (`sin`) and cosine (`cos`).
+
+### 3.4 Tokenizer
+
+The tokenizer takes in raw text and transforms that text into tokens. The decision was made to capture comments and newlines in order to support dynamic comment documentation in the future if desired. There is also an `EOF` token which indicates the end of execution like a c-style string null character. The tokenizer will return an error if characters cannot be sequenced into appropriate tokens.
+
+### 3.5 AST Parser
+
+The abstract syntax tree (AST) parser transforms the token string into an undecorated nested syntax tree structure (the abstract syntax tree). The parser will return an error if tokens do not appear in grammatically correct sequences.
+
+### 3.6 Semantic Analyzer
+
+The semantic analyzer analyzes and decorates a previously constructed AST structure. The semantic analyzer also contains the instance of the symbol table. The semantic analyzer will return errors if  the program is constructed in such a way to violate the other rules of the language, such as reassigning and immutable variable; assigning a value to an undeclared variable; or using a variable that has not yet been defined. Normally the analyzer would check for type incompatibility and scope as well, but there is only one type and only one scope so this is currently unnecessary.
+
+### 3.7 Executor
+
+The executor takes a previously validated and decorated AST and interprets the AST to produce the intended behavior of the program. The executor contains a run-time variable table which holds the current values of the variables in the program. The executor will return errors in the event of a run-time error, such as divide by zero.
+
+### 3.8 Dependencies
+
+The only dependencies of the Rust code is the serde and serde_json libraries (and their dependencies). This is documented in the 'cargo.toml' file and replicated here.
+
+```
+[dependencies]
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+```
+
+Serde and serde_json are only used to aid in output of the AST for debugging purposes.
+
+
 
 ## 5. Example Programs
 
@@ -276,7 +306,7 @@ Being a toy language it is easy to keep it highly readable, writable, and orthog
 
 The language should be highly readable and writable for a developer with a background in mathematics. Though there may be some brief acclimation needed for a developer only familiar with the most prevalent programming languages since `{...}` doesn't mean a dictionary/hash map or similar. Of course `:=` is more difficult to write when there is only a single option, but as the intention is to leave this open for implementation of other assignment methods it shouldn't be considered a terrible trade-off. The multiple assignment methods would surely improve readability.
 
-There is only a single native type (`Real`)...
+There is only a single native type (`Real`)... TODO
 
 ### 6.1 EBNF
 

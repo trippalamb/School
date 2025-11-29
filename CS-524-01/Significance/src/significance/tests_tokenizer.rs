@@ -1,6 +1,12 @@
+//------------------
+// (Tripp) Milton Lamb
+// Fall 2025, Nov 29 2025
+// CS-524: Programming Languages
+// Final Project
+//------------------
+
 use crate::significance::tokenizer::{Token, TokenWithPos, Tokenizer};
 
-    
 const FLOAT_EPSILON: f64 = 1e-10;
 
 fn assert_tokens(actual: &[TokenWithPos], expected: &[Token]) {

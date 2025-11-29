@@ -1,10 +1,16 @@
+//------------------
+// (Tripp) Milton Lamb
+// Fall 2025, Nov 29 2025
+// CS-524: Programming Languages
+// Final Project
+//------------------
+
 use std::env;
 use std::process;
 use std::io::{self, Write};
 
 use significance::Significance;
 
-//TODO: put name, class, and project info at top of every file
 
 fn main() {
     let args: Vec<String> = env::args().collect();

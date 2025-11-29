@@ -1,3 +1,10 @@
+//------------------
+// (Tripp) Milton Lamb
+// Fall 2025, Nov 29 2025
+// CS-524: Programming Languages
+// Final Project
+//------------------
+
 use super::*;
 use crate::significance::ast_parser::{Program, Statement, VarType, Expression, BinaryOp, UnaryOp};
 use crate::significance::tokenizer::Position;

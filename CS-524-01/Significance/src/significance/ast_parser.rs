@@ -1,3 +1,10 @@
+//------------------
+// (Tripp) Milton Lamb
+// Fall 2025, Nov 29 2025
+// CS-524: Programming Languages
+// Final Project
+//------------------
+
 //! Abstract Syntax Tree (AST) structures and recursive descent parser for the Significance language.
 //!
 //! This module defines the AST node types that represent parsed Significance code and provides

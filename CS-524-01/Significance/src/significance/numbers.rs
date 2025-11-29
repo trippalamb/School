@@ -1,3 +1,10 @@
+//------------------
+// (Tripp) Milton Lamb
+// Fall 2025, Nov 29 2025
+// CS-524: Programming Languages
+// Final Project
+//------------------
+
 use std::fmt;
 use std::ops::{Add, Div, Mul, Neg, Rem, Sub};
 

@@ -1,3 +1,10 @@
+//------------------
+// (Tripp) Milton Lamb
+// Fall 2025, Nov 29 2025
+// CS-524: Programming Languages
+// Final Project
+//------------------
+
 //! Runtime execution engine for the Significance language.
 //!
 //! This module provides the executor that evaluates validated AST nodes, managing variable

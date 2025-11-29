@@ -1,3 +1,10 @@
+//------------------
+// (Tripp) Milton Lamb
+// Fall 2025, Nov 29 2025
+// CS-524: Programming Languages
+// Final Project
+//------------------
+
 //! Semantic analysis for the Significance language.
 //!
 //! This module performs semantic validation of parsed AST nodes, checking for errors that

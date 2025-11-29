@@ -229,7 +229,9 @@ The semantic analyzer holds onto its own symbol table, and the executor holds on
 
 ![file parse pathway](./imgs/File_interpret.png)
 
-### 3.3 
+### 3.3 Real Type
+
+There is only one native type in the language as implemented: the `Real` type. It largely behaves as double precision floating-point type with an additional uncertainty term. If the uncertainty is absent or is `0.0`, it basically wraps the Rust `f64` type. The uncertainty calculation method is based on the operation being applied to the numbers in question. These methods are explained the operators and functions sections.
 
 ## 5. Example Programs
 

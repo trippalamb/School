@@ -5,8 +5,6 @@ use std::io::{self, Write};
 use significance::Significance;
 
 //TODO: put name, class, and project info at top of every file
-//TODO: go comment everything
-//TODO: write implementation design document
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -38,7 +36,10 @@ fn run_repl() {
         if input.trim() == "" { continue; }
 
         match parser.parse_repl(&input) {
-            Ok(result) => println!("{}", result),
+            Ok(errors) => {
+                let msgs = errors.iter().map(|e| e.to_string()).collect::<Vec<String>>();
+                println!("{}", msgs.join("\n"))
+            }
             Err(e) => {
                 println!("Error: {}", e);
             }

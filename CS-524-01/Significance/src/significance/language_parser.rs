@@ -36,10 +36,9 @@
 //! 
 use std::fs::{self, File};
 use crate::significance::tokenizer::{Tokenizer, Token, TokenWithPos};
-use crate::significance::ast_parser::{AstParser, ParseError, Program};
+use crate::significance::ast_parser::{AstParser, Program};
 use crate::significance::semantic_analyzer::SemanticAnalyzer;
 use crate::significance::executor::Executor;
-use crate::significance::RunTimeError;
 
 /// Main interpreter interface for the Significance language.
 ///
@@ -112,9 +111,12 @@ impl Significance {
     /// sig.parse_repl("2 + 2")?;  // Prints: 4
     /// ```
     pub fn new() -> Self {
+        let mut analyzer = SemanticAnalyzer::new();
+        analyzer.import_standard_library();
+        
         Self {
             parser: AstParser::new(),
-            analyzer: SemanticAnalyzer::new(),
+            analyzer,
             executor: Executor::new()
         }
     }
@@ -171,11 +173,23 @@ impl Significance {
     /// // Incomplete statement (no execution)
     /// assert_eq!(sig.parse_repl("x +")?, "");
     /// ```
-    pub fn parse_repl(&mut self, input: &str) -> Result<String, ParseError> {
+    pub fn parse_repl(&mut self, input: &str) -> Result<Vec<String>, std::io::Error> {
 
+        self.analyzer.clear_errors();
+        self.executor.clear_errors();
+
+        let mut errors = Vec::new();
+        
         let input = input.trim();
         let mut tokenizer = Tokenizer::new(input);
-        let tokens = tokenizer.tokenize()?;
+        
+        let tokens = match tokenizer.tokenize() {
+            Ok(t) => t,
+            Err(e) => {
+                errors.push(e);  // tokenize already returns String
+                return Ok(errors);
+            }
+        };
 
         // Find the last meaningful token (skip Newline and EOF)
         let last_meaningful = tokens.iter()
@@ -184,28 +198,28 @@ impl Significance {
 
         match last_meaningful {
             Some(TokenWithPos { token, .. }) if Self::is_incomplete_token(token) => {
-                return Ok("".to_string()) // Signal continuation needed
+                return Ok(Vec::new()) // Signal continuation needed
             },
             _ => (),
         }
 
-        let ast = self.parser.parse_statement_from_tokens(tokens)?;
-        self.analyzer.analyze_statement(&ast);
-        self.executor.execute_statement(&ast);
+        let ast = match self.parser.parse_statement_from_tokens(tokens) {
+            Ok(a) => a,
+            Err(e) => {
+                errors.push(e.to_string());
+                return Ok(errors);
+            }
+        };
 
-        // Check for runtime errors
-        let errors = self.executor.get_errors();
-        if let Some(first_error) = errors.first() {
-            let (message, position) = match first_error {
-                RunTimeError::DivisionByZero(pos) => 
-                    ("Division by zero".to_string(), pos.clone()),
-                RunTimeError::UndefinedVariable(name, pos) => 
-                    (format!("Undefined variable: {}", name), pos.clone()),
-            };
-            return Err(ParseError { message, position });
+        self.analyzer.analyze_statement(&ast);
+        errors.extend(self.analyzer.get_errors().iter().map(|e| e.to_string()));
+        
+        if errors.is_empty() {
+            self.executor.execute_statement(&ast);
+            errors.extend(self.executor.get_errors().iter().map(|e| e.to_string()));
         }
 
-        Ok("".to_string())
+        Ok(errors)
     }
 
     /// Checks if a token indicates an incomplete statement.
@@ -321,7 +335,7 @@ impl Significance {
         write_ast_to_file(&ast, "ast.json")
             .map_err(|e| format!("Failed to write AST to file: {}", e))?;
 
-        SemanticAnalyzer::new().analyze_program(&ast);
+        SemanticAnalyzer::new().import_standard_library().analyze_program(&ast);
         Executor::new().execute_program(&ast);
         
         Ok(0) // placeholder return value

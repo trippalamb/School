@@ -256,7 +256,7 @@ impl AstParser {
     /// * `Ok(Statement)` - Successfully parsed statement
     /// * `Err(ParseError)` - Parse error with location
     pub fn parse_statement(&mut self) -> Result<Statement, ParseError> {
-        self.current = 0;
+
         match self.current_token() {
             Token::LeftBrace => {
                 self.parse_var_declaration()

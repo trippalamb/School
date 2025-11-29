@@ -67,7 +67,7 @@ fn test_number_display() {
     let with_error = Real::with_error(3.14, 0.01);
     
     assert_eq!(format!("{}", exact), "3.14");
-    assert_eq!(format!("{}", with_error), "3.14 ± 0.01");
+    assert_eq!(format!("{}", with_error), "3.14 +/- 0.01");
 }
 
 // Zero tests

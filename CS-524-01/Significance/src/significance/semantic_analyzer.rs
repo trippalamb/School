@@ -18,7 +18,8 @@ use std::collections::HashMap;
 ///
 /// These errors represent violations of the language's semantic rules that are detected
 /// after parsing but before execution. Each error includes position information for
-/// helpful error reporting.
+/// helpful error reporting.\
+#[derive(Clone)]
 pub enum SemanticError {
     /// Attempt to use a variable that has not been declared.
     ///
@@ -42,6 +43,30 @@ pub enum SemanticError {
     /// {x : real}  // Error: x already declared
     /// ```
     VariableAlreadyDeclared(String, Position),
+
+    /// Attempt to assign to a variable that has already been assigned to.
+    ///
+    /// Contains the variable name and the position of the assignment.
+    ///
+    /// # Example
+    ///
+    /// ```ignore
+    /// x := 5
+    /// x := 10  // Error: x already assigned
+    /// ```
+    VariableAlreadyAssigned(String, Position),
+
+    /// Attempt to use a variable that has not been assigned to.
+    ///
+    /// Contains the variable name and the position where it was referenced.
+    ///
+    /// # Example
+    ///
+    /// ```ignore
+    /// {x:real}
+    /// x  // Error: x not assigned
+    /// ```
+    VariableNotAssigned(String, Position),
     
     /// Attempt to call a function that has not been declared or imported.
     ///
@@ -53,6 +78,23 @@ pub enum SemanticError {
     /// result := unknown_func(5)  // Error: unknown_func not declared
     /// ```
     FunctionNotDeclared(String, Position),
+}
+
+impl std::fmt::Display for SemanticError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            SemanticError::VariableNotDeclared(name, pos) => 
+                write!(f, "Error at {}:{}: Variable '{}' not declared", pos.line, pos.column, name),
+            SemanticError::VariableAlreadyDeclared(name, pos) => 
+                write!(f, "Error at {}:{}: Variable '{}' already declared", pos.line, pos.column, name),
+            SemanticError::VariableAlreadyAssigned(name, pos) => 
+                write!(f, "Error at {}:{}: Variable '{}' already assigned", pos.line, pos.column, name),
+            SemanticError::FunctionNotDeclared(name, pos) => 
+                write!(f, "Error at {}:{}: Function '{}' not declared", pos.line, pos.column, name),
+            SemanticError::VariableNotAssigned(name, pos) => 
+                write!(f, "Error at {}:{}: Variable '{}' not assigned", pos.line, pos.column, name),
+        }
+    }
 }
 
 /// Semantic analyzer for the Significance language.
@@ -86,6 +128,7 @@ pub enum SemanticError {
 ///     // Handle semantic errors
 /// }
 /// ```
+
 pub struct SemanticAnalyzer {
     /// Symbol table mapping identifier names to their metadata.
     ///
@@ -110,6 +153,9 @@ pub struct VarInfo {
     
     /// Source position where this identifier was declared
     declared_at: Position,
+
+    /// Whether this variable has been assigned a value
+    assigned: bool,
 }
 
 impl VarInfo {
@@ -132,6 +178,35 @@ impl VarInfo {
     pub fn get_declared_at(&self) -> &Position {
         &self.declared_at
     }
+
+    /// Marks this variable as having been assigned a value.
+    ///
+    pub fn mark_assigned(&mut self) {
+        self.assigned = true
+    }
+
+    /// Returns whether this variable has been assigned a value.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the variable has been assigned a value, `false` otherwise
+    pub fn is_assigned(&self) -> bool {
+        self.assigned
+    }
+}
+
+/// Creates a HashMap of standard library functions.
+/// 
+/// # Returns
+/// 
+/// A HashMap mapping standard libary function names to their metadata
+pub fn build_standard_library() -> HashMap<String, VarInfo> {
+    let mut std_symbol_table = HashMap::new();
+    std_symbol_table.insert("sin".to_string(), VarInfo { var_type: VarType::RealFunction, declared_at: Position { line: 0, column: 0 }, assigned:true });
+    std_symbol_table.insert("cos".to_string(), VarInfo { var_type: VarType::RealFunction, declared_at: Position { line: 0, column: 0 }, assigned:true });
+    std_symbol_table.insert("sqrt".to_string(), VarInfo { var_type: VarType::RealFunction, declared_at: Position { line: 0, column: 0 }, assigned:true });
+
+    std_symbol_table
 }
 
 impl SemanticAnalyzer {
@@ -162,6 +237,10 @@ impl SemanticAnalyzer {
         &self.errors
     }
 
+    pub fn clear_errors(&mut self) {
+        self.errors.clear();
+    }
+
     /// Resets the analyzer to its initial state.
     ///
     /// Clears both the symbol table and accumulated errors. Useful for
@@ -169,6 +248,7 @@ impl SemanticAnalyzer {
     /// for REPL implementations that need to preserve state between inputs.
     pub fn reset(&mut self) {
         self.symbol_table.clear();
+        self.import_standard_library();
         self.errors.clear();
     }
 
@@ -212,12 +292,10 @@ impl SemanticAnalyzer {
     /// analyzer.import_standard_library();
     /// // Now sin, cos, sqrt are available for use
     /// ```
-    pub fn import_standard_library(&mut self) {
-        let mut std_symbol_table = HashMap::new();
-        std_symbol_table.insert("sin".to_string(), VarInfo { var_type: VarType::RealFunction, declared_at: Position { line: 0, column: 0 } });
-        std_symbol_table.insert("cos".to_string(), VarInfo { var_type: VarType::RealFunction, declared_at: Position { line: 0, column: 0 } });
-        std_symbol_table.insert("sqrt".to_string(), VarInfo { var_type: VarType::RealFunction, declared_at: Position { line: 0, column: 0 } });
-        self.import_library(std_symbol_table);
+    pub fn import_standard_library(&mut self) -> &mut Self{
+
+        self.import_library(build_standard_library());
+        self
     }
 
     /// Imports a custom library (set of functions) into the symbol table.
@@ -236,7 +314,8 @@ impl SemanticAnalyzer {
     /// let mut custom_lib = HashMap::new();
     /// custom_lib.insert("log".to_string(), VarInfo { 
     ///     var_type: VarType::RealFunction,
-    ///     declared_at: Position { line: 0, column: 0 }
+    ///     declared_at: Position { line: 0, column: 0 },
+    ///     assigned: true
     /// });
     /// analyzer.import_library(custom_lib);
     /// ```
@@ -293,7 +372,8 @@ impl SemanticAnalyzer {
             name.to_string(),
             VarInfo {
                 var_type: var_type.clone(),
-                declared_at: pos.clone()
+                declared_at: pos.clone(),
+                assigned: false
             }
         );
     }
@@ -302,7 +382,12 @@ impl SemanticAnalyzer {
     ///
     /// Validates that:
     /// 1. The variable being assigned to has been declared
-    /// 2. The value expression is semantically valid
+    /// 2. The variable has not already been assigned (immutability)
+    /// 3. The value expression is semantically valid
+    ///
+    /// The expression is always analyzed regardless of whether the variable
+    /// exists or has been assigned, allowing multiple errors to be reported
+    /// in a single pass.
     ///
     /// # Arguments
     ///
@@ -312,12 +397,35 @@ impl SemanticAnalyzer {
     ///
     /// # Errors Detected
     ///
-    /// Records `VariableNotDeclared` if the assignment target doesn't exist.
+    /// - `VariableNotDeclared` if the assignment target doesn't exist
+    /// - `VariableAlreadyAssigned` if the variable has already been assigned a value
     pub fn analyze_assignment(&mut self, name: &str, value: &Expression, pos: &Position) {
-        if self.symbol_table.get(name).is_none() {
-            self.errors.push(SemanticError::VariableNotDeclared(name.to_string(), pos.clone()));
-        }
+        // First: check variable state (immutable borrow, released at end of match)
+        let should_mark = match self.symbol_table.get(name) {
+            None => {
+                self.errors.push(SemanticError::VariableNotDeclared(name.to_string(), pos.clone()));
+                false
+            }
+            Some(var_info) => {
+                if var_info.is_assigned() {
+                    self.errors.push(SemanticError::VariableAlreadyAssigned(name.to_string(), pos.clone()));
+                    false
+                } else {
+                    true
+                }
+            }
+        };
+
+        // Analyze expression (no borrow held)
+        let n_err = self.errors.len();
         self.analyze_expression(value, pos);
+
+        // Now mutate if everything was valid
+        if should_mark && self.errors.len() == n_err {
+            if let Some(var_info) = self.symbol_table.get_mut(name) {
+                var_info.mark_assigned();
+            }
+        }
     }
 
     /// Recursively analyzes an expression.
@@ -354,6 +462,12 @@ impl SemanticAnalyzer {
             Expression::Variable(name) => {
                 if self.symbol_table.get(name).is_none() {
                     self.errors.push(SemanticError::VariableNotDeclared(name.to_string(), pos.clone()));
+                }
+                else{
+                    let var_info = self.symbol_table.get(name).unwrap();
+                    if !var_info.is_assigned() {
+                        self.errors.push(SemanticError::VariableNotAssigned(name.to_string(), pos.clone()));
+                    }
                 }
             }
         }

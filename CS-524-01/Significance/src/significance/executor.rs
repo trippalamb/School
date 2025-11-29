@@ -54,6 +54,14 @@ pub enum RunTimeError {
     /// ```
     UndefinedVariable(String, Position)
 }
+impl std::fmt::Display for RunTimeError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            RunTimeError::DivisionByZero(position) => write!(f, "Division by zero error at {}:{}.", position.line, position.column),
+            RunTimeError::UndefinedVariable(name, position) => write!(f, "Undefined variable '{}' at {}:{}.", name, position.line, position.column),
+        }
+    }
+}
 
 /// Runtime representation of a variable.
 ///
@@ -158,6 +166,10 @@ impl Executor{
     /// create a new executor instance.
     pub fn reset(&mut self) {
         self.run_time_vars.clear();
+    }
+
+    pub fn clear_errors(&mut self) {
+        self.errors.clear();
     }
 
     /// Retrieves the current value of a variable by name.

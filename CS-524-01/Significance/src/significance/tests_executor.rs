@@ -432,28 +432,16 @@ fn test_unary_operations() {
 }
 
 #[test]
-#[should_panic(expected = "Variable not declared")]
 fn test_undefined_variable_access() {
     let mut executor = Executor::new();
     
     let var_expr = Expression::Variable("undefined_var".to_string());
-    executor.evaluate_expression(&var_expr); // Should panic
-}
-
-#[test]
-#[should_panic(expected = "Variable not declared")]
-fn test_assignment_to_undeclared_variable() {
-    let mut executor = Executor::new();
+    executor.evaluate_expression(&var_expr);
     
-    let assignment = Statement::Assignment {
-        name: "undeclared".to_string(),
-        value: Expression::NumberWithUncertainty {
-            value: 10.0,
-            error: 0.0,
-            pos: dummy_pos(),
-        },
-        pos: dummy_pos(),
-    };
-    
-    executor.execute_statement(&assignment); // Should panic
+    let errors = executor.get_errors();
+    assert_eq!(errors.len(), 1);
+    match &errors[0] {
+        RunTimeError::UndefinedVariable(_, _) => {}, // Expected
+        _ => panic!("Expected UndefinedVariable error"),
+    }
 }

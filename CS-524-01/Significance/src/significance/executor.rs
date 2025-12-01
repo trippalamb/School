@@ -361,7 +361,7 @@ impl Executor{
                 name.to_string(),
                 Position { line: 0, column: 0 } // Position not available here
             ));
-            Real::new(0.0) // Return default value after logging error
+            Real::new(f64::NAN) // Return default value after logging error
         }
     }
 

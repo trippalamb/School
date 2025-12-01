@@ -532,6 +532,17 @@ impl Tokenizer {
         self.read_decimal_part(&mut number_text);
         self.read_exponent_part(&mut number_text);
 
+        let c = self.peek();
+
+        match c {
+        'a'..='z' | 'A'..='Z' | '_' => {
+            return Err(format!(
+                "Unexpected character '{}' immediately after number at {}:{}", 
+                c, self.line, self.column
+            ));
+        },
+        _ => {} // All other characters are valid terminators, this prevents identifiers from appearing after numbers without a space
+}
 
         number_text.parse::<f64>()
             .map_err(|_| format!("Could not parse '{}' as floating point number", number_text))

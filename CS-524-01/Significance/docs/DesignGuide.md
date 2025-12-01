@@ -304,9 +304,11 @@ If this language were to be developed further, the above concepts lay the path f
 
 Being a toy language it is easy to keep it highly readable, writable, and orthogonal. 
 
-The language should be highly readable and writable for a developer with a background in mathematics. Though there may be some brief acclimation needed for a developer only familiar with the most prevalent programming languages since `{...}` doesn't mean a dictionary/hash map or similar. Of course `:=` is more difficult to write when there is only a single option, but as the intention is to leave this open for implementation of other assignment methods it shouldn't be considered a terrible trade-off. The multiple assignment methods would surely improve readability.
+The language should be highly readable and writable for a developer with a background in mathematics. Though there may be some extremely brief acclimation needed for a developer only familiar with the most prevalent programming languages since `{...}` doesn't mean a dictionary/hash map or similar. Additionally, `:=` is more difficult to write when there is only a single assignment operator, but as the intention is to leave this open for implementation of other assignment methods it shouldn't be considered a terrible trade-off (or really even a bad one). The multiple assignment methods would surely improve readability. 
 
-There is only a single native type (`Real`)... TODO
+There is only a single native type (`Real`) which makes the language incredibly easy to maintain high orthogonality. All operations can easily be applied to every type (since there is only one). The interpreter has 43 units tests which is fairly reasonable given the complexity of the language, but there surely exist edge cases that are not covered by the tests. 
+
+The cost for making use of this language should be minimal. The language follows fairly closely to mathematics and uses fairly common symbols for mathematics operations meaning even a novice developer with basic math schooling should be able to pick it up with limited difficulty. Additionally, the interpreter is written in Rust so the inherent inefficiency of an interpreted language should be minimized in contract to using a generic grammar engine to generate an interpreter.
 
 ### 6.1 EBNF
 

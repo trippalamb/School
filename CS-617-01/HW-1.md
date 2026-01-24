@@ -16,6 +16,9 @@ Present a recursive pseudo-code for insertion sort
 
 ```
 insertion_sort_iter(A)
+  // `A` is an index-1 based array of numbers
+  // `n` is len(A)
+  
   for(ki=2; ki<=n; ki++) //key index
     key = A[ki]
     si = ki //sort index
@@ -24,6 +27,23 @@ insertion_sort_iter(A)
         si -= 1
     A[si] = key
 
+```
+
+```
+// `A` is an index-1 based array of numbers
+// `n` is len(A)
+top-level call: insertion_sort_rec(A, n)
+
+insertion_sort_rec(A, si)
+
+  if si < n
+    key = A[si]
+    insertion_sort_rec(A, si+1)
+    i = si
+    while i < n && key > A[i+1]
+      A[i] = A[i+1]
+      i += 1
+    A[i] = key
 ```
 
 

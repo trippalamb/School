@@ -4,6 +4,8 @@
 
 2026 Feb 24
 
+CS 617
+
 ## Problem 1
 
 3-3 Ordering by asymptotic growth rates 
@@ -20,23 +22,20 @@ a. Rank the following functions by order of growth.
 8. $(\frac{3}{2})^{n}$
 9. $\lg{n}^{\lg{n}} = n^{\lg{\lg{n}}}$
 10. $(\ln{n})!$
-11. $2^{2\cdot\lg{n}}$, $4^{\lg{n}}$
-12. $2^{\lg{n}}$
-13. $(\sqrt{2})^{\lg{n}}$
-14. $2^\sqrt{2\cdot\lg{n}}$
-15. $2^{lg^{*}{n}}$
-16. $n^3$
-17. $n^2$
-18. $n\cdot\lg{n}$
-19. $\lg{n!}$
-20. $n$
-21. $\lg^{2}{n}$
-22. $\ln{n}$
-23. $\sqrt{\lg{n}}$
-24. $\ln{\ln{n}}$
-25. $\lg^{*}{n} = \lg^{*}{(\lg{n})}$
-26. $\lg{(\lg^{*}{n})}$
-27. $n^{\frac{1}{\lg{n}}} = 1$
+11. $n^3$
+12. $n^2 = 4^{\lg{n}}$
+13. $\lg{n!} = n\cdot\lg{n}$
+14. $n$ = $2^{\lg{n}}$
+15. $(\sqrt{2})^{\lg{n}}$
+16. $2^\sqrt{2\cdot\lg{n}}$
+17. $\lg^{2}{n}$
+18. $\ln{n}$
+19. $\sqrt{\lg{n}}$
+20. $\ln{\ln{n}}$
+21. $2^{lg^{*}{n}}$
+22. $\lg^{*}{n} = \lg^{*}{(\lg{n})}$
+23. $\lg{(\lg^{*}{n})}$
+24. $n^{\frac{1}{\lg{n}}} = 1$
 
 ## Problem 2
 
@@ -142,7 +141,6 @@ $$
 \Omega \le T(n) \le O(n) \\ \\
 \boxed{T(n) = \Theta(n)}
 $$
-
 
 
 

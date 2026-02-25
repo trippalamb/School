@@ -71,9 +71,6 @@ $$
 \boxed{T(n) = \Theta(n^4)}
 $$
 
-
-------
-
 ### (c) $T(n) = 16T(n/4) + n^2$
 
 $$
@@ -87,8 +84,6 @@ Since $f(n) = \Theta(n^{c_{\text{crit}}})$:
 $$
 \boxed{T(n) = \Theta(n^2 \lg n)}
 $$
-
-------
 
 ### (f) $T(n) = 2T(n/4) + \sqrt{n}$
 

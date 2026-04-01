@@ -1,64 +1,52 @@
 # Chapter 1: "How Big Is a Square?"
 
-## Section 1.1: "How Long Is a Line?" — Session 1: Measuring Things
-
-------
-
 ### Opening Question
 
 **"How big is this paper?"**
 
-(No preamble. This is the first thing on the page. Big, bold, maybe with an illustration of a blank sheet of paper.)
+There are lots of ways to define bigness or size. You can use how much space it takes up or how long it is. You can compare it to other things of similar size. Are there ways we can tell someone else exactly how big something is? What do we mean by big anyways? This chapter will start you on your journey to answer these questions, and by the end of the chapter you will know how to exactly describe the how big this piece of paper is to someone else.
 
-------
+## Section 0: "What can we count?"
 
-### [Textbook Section 1: What Did You Just Do?]
+We can count all sorts of things: polka dots, sheep, balls, cars, bananas, giraffes. We can can count things that aren't objects too: steps, heartbeats, turns, and points. Two other very important things we can also count are time and space. We can count time using things like seconds. Seconds are a type of something called units; just like apples are a type of fruit. Because seconds are used to measure time; seconds are called a unit of measurement of time.
 
-> **Placement:** After the first measuring activity (guided by teaching guide). Link has just measured a bunch of real objects.
+[picture of apples and other fruit being grouped together ]
 
-**What to write about (DO NOT WRITE YET):**
+Space is often measured using centimeters and meters. The United States of America also uses inches and feet. Centimeters, meters, inches, and feet are all units of measurement of distance. There are a bunch of other ways to measure distance too, but we will only focus on those 4 right now.
 
-- Everything he measured had a start and an end
-- That's called a LINE SEGMENT — straight, two endpoints, measurable
-- A LINE goes forever in both directions — infinitely long — you can't measure it
-- Everything we measure in real life is a line segment
-- Tone: short, matter-of-fact, a little bit "whoa" about the infinity part
+[picture of  a measuring tape]
 
-**Pictures needed:**
+You've probably already counted distance before and not even known it. If you've ever used a ruler, then you've counted distance! But also, if you've ever counted on a number line you've counted distance too. The number line counts the distance from zero. If you've ever used a number line to add or subtract you've counted the distance from one number to another!
 
-- A line segment with two visible endpoints, labeled with a length
-- A line with arrows on both ends, maybe trailing off or fading, suggesting it goes on forever
-- Maybe a side-by-side comparison: segment vs. line
+[picture of a number line]
 
-**Notes:**
+### Glossary
 
-- Keep to 2-3 short paragraphs max
-- Name "line segment" and "line" as vocabulary — these are the payoff labels for what he already did
-- The infinity hook is the interesting part — lean into it briefly but don't let it dominate
-- Don't define "endpoint" formally unless it comes up naturally in the wording
+**unit of measurement** - the thing you're counting when you measure a type of thing like distance, time, or even candy.
 
-------
+## Section 1: "How long is a line?"
 
-### [Exercise Block — referenced only]
+This is kind of a trick question. A **line** is actually infinitely long (at least in math)! A line goes on forever in both directions. You can't measure the length of a line since you can't hold an infinite ruler! When you measure something you are actually measuring something called a **line segment**. 
 
-(The actual exercises live in the teaching guide. The textbook just needs a marker or transition like "Time to practice — Abby has some line segments for you to measure.")
+[infinitely long line]
 
-------
+A line segment connects two things called points. A point is just a specific location in space. Sometimes people might call the points a start point and an end point, or maybe point 1 and point 2. It doesn't really matter which one is which for a line segment unless you have to travel on it. 
 
-### [Activity Block — referenced only]
+[line segment and points labeled]
 
-(Role reversal activity. Again, details in teaching guide. Textbook could have a small callout like "Now it's your turn to be the one asking the questions.")
+In every day life people are almost never talking about infinitely long lines so people often just call line segments by the shorter lines because it's easier.
 
-------
+### Glossary
 
-### Session 1 Wrap-Up
+**point** — an exact location with no size.
 
-> **What to write about (DO NOT WRITE YET):**
+**line** — a straight path that goes on forever in both directions.
 
-- You know how to measure how long something is
-- Everything you measured is a line segment
-- A line goes on forever
-- 2-3 sentences max, not a summary paragraph — more like a "here's what you figured out" moment
+**line segment** — the part of a line between two points.
+
+
+
+
 
 ------
 

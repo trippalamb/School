@@ -10,15 +10,15 @@ There are lots of ways to define bigness or size. You can use how much space it 
 
 We can count all sorts of things: polka dots, sheep, balls, cars, bananas, giraffes. We can can count things that aren't objects too: steps, heartbeats, turns, and points. Two other very important things we can also count are time and space. We can count time using things like seconds. Seconds are a type of something called units; just like apples are a type of fruit. Because seconds are used to measure time; seconds are called a unit of measurement of time.
 
-[picture of apples and other fruit being grouped together ]
+![Figure_1_0_1](.\imgs\Chapter1\Figure_1_0_1.png)
 
 Space is often measured using centimeters and meters. The United States of America also uses inches and feet. Centimeters, meters, inches, and feet are all units of measurement of distance. There are a bunch of other ways to measure distance too, but we will only focus on those 4 right now.
 
-[picture of  a measuring tape]
+![Figure_1_0_2](.\imgs\Chapter1\Figure_1_0_2.png)
 
 You've probably already counted distance before and not even known it. If you've ever used a ruler, then you've counted distance! But also, if you've ever counted on a number line you've counted distance too. The number line counts the distance from zero. If you've ever used a number line to add or subtract you've counted the distance from one number to another!
 
-[picture of a number line]
+![Figure_1_0_3](.\imgs\Chapter1\Figure_1_0_3.png)
 
 ### Vocabulary
 
@@ -28,11 +28,11 @@ You've probably already counted distance before and not even known it. If you've
 
 This is kind of a trick question. A **line** is actually infinitely long (at least in math)! A line goes on forever in both directions. You can't measure the length of a line since you can't hold an infinite ruler! When you measure something you are actually measuring something called a **line segment**. 
 
-[infinitely long line]
+![Figure_1_1_1](.\imgs\Chapter1\Figure_1_1_1.jpg)
 
 A line segment connects two things called points. A point is just a specific location in space. Sometimes people might call the points a start point and an end point, or maybe point 1 and point 2. It doesn't really matter which one is which for a line segment unless you have to travel on it. 
 
-[line segment and points labeled]
+![Figure_1_1_2](.\imgs\Chapter1\Figure_1_1_2.png)
 
 In every day life people are almost never talking about infinitely long lines so people often just use the word "line" instead of "line segment" because it's easier.
 
@@ -93,7 +93,7 @@ So far, everything we've measured has been right in front of us. You put a ruler
 
 [complex schematic]
 
-Trying to describe complicated shape with just words gets confusing fast. It's much easier to draw a picture and write the measurements on it. A measurement written on a drawing is called a label, and a drawing with labels on it is called a labeled diagram.
+Trying to describe complicated shape with just words gets confusing fast. It's much easier to draw a picture and write the measurements on it. A measurement written on a drawing is called a **label**, and a drawing with labels on it is called a labeled **diagram**.
 
 > Note: If you did the programming bonus in Section 1, you've already made labeled diagrams, even if you didn't know that's what they were called yet! The label you gave each line segment exlpained the size of the line segment even if the line segment on the computer screen was a different length. 
 
@@ -133,7 +133,23 @@ This can get tricky. Look at these two line segments and try to guess which one 
 >
 > The drawing of segment A is bigger than the drawing of segment B. BUT! Line segment B (labeled "9 inches") describes a segment that is much longer, even if it looks shorter on the page! The first drawing has been scaled up and the second has been scaled down. Without looking at the labels drawings can mislead you!
 
+
+
+### Section 2.3: Do We Always Need Units?
+
+Back in Section 1.1 we said that a measurement is always a number and a unit together. "5 inches" is a measurement. Just "5" by itself isn't. If you've ever looked at a math problem, you've probably noticed that a lot of them just use plain numbers with no units at all. What's going on?
+
+The math works the same no matter what units you use. If you have 2 bananas and someone gives you 2 more bananas you have 4 bananas. If you have a line segment that is 2 inches long and another that is 2 inches long and you combine them they make a new line segment 4 inches long. If those same segments were 2 centimeters each instead, together they'd make 4 centimeters. Numbers behave the same no matter what the units are (as long as they are the same units!). So when a math problem just says "2 + 2", it doesn't matter if you're imagining inches, centimeters, or bananas. The answer is 4.
+
+> **Watch out!** You can only add measurements together when they use the same units. 2 inches + 2 inches = 4 inches works. But 2 inches + 2 centimeters doesn't just equal 4 of anything. Inches and centimeters are different sizes, so you can't combine them directly. It would be like adding 2 apples and 2 action figures. Doing that just gives you 4 things, which isn't very useful information.
+
+This is actually one reason why number lines are so useful. A number line is like a ruler that hasn't picked a unit yet. It just counts: 0, 1, 2, 3, 4... When you move from 0 to 2 on a number line, you've traveled a distance of 2. Two *what*? It doesn't matter yet. Sometimes when we have real world problems we will use units, but when the units aren't important we will often leave them off. So the answer is no, we don't always need units!
+
 ### Vocabulary
+
+**diagram** — a drawing that represents something, like a shape, an object, or a plan.
+
+**label** — a measurement written on a drawing to show the real size of something.
 
 **scaled** — when a drawing has been changed in size from the real thing.
 
@@ -143,23 +159,4 @@ This can get tricky. Look at these two line segments and try to guess which one 
 
 **to scale** — when a drawing is the same size as the real thing.
 
-### Section 2.3: Generic "Units" (TODO — needs development)
-  - 
 
-### Programming Bonus: "TBD"
-  - New program needed — TBD
-
-### Vocabulary
-  - TBD (label? diagram?)
-
-
-
-
-
-> **Example 2:** Which line segment is longer?
->
-> [a visually long line segment labeled "3 inches" also labeled with an A]
->
-> [a visually short line segment labeled "9 inches" also labeled with a B]
->
-> The drawing of segment A is bigger than the drawing of segment B. BUT! Line segment B (labeled "9 inches") describes a segment that is much longer, even if it looks shorter on the page! The first drawing has been scaled up and the second has been scaled down. Without looking at the labels drawings can mislead you!

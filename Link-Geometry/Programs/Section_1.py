@@ -6,8 +6,6 @@ from segment_helpers import add_line_segment, draw_line_segments
 
 add_line_segment(length=6, label="6 cm", color="blue")
 add_line_segment(length=3, label="3 inches", color="red")
-add_line_segment(length=18, label="banana", color="red")
-add_line_segment(length=220, label="22 inches", color="magenta")
 
 # =============================================
 #  This line does the drawing — just run the file!

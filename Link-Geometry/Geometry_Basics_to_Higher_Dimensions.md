@@ -40,11 +40,9 @@ In every day life people are almost never talking about infinitely long lines so
 
 You've probably used a ruler before, but let's make sure we're on the same page about how they work. A ruler is just a line segment with marks on it! The marks are spaced the same distance apart and each one has a number. To measure something, you line up one end of the thing you're measuring with the zero mark on the ruler, and then you read the number at the other end.
 
-[picture of a ruler measuring a short line segment, with the zero end clearly lined up and an arrow or highlight at the other end showing where to read the number]
+![Figure_1_1_1_1](.\imgs\Chapter1\Figure_1_1_1_1.png)
 
 Be careful — on some rulers the zero mark isn't right at the edge. Always look for where the 0 is and start there.
-
-[picture of a ruler where the 0 is slightly inset from the edge, with a "start here, not here" annotation]
 
 When you write down a **measurement**, you always need two things: a *number* and a *unit*. If someone tells you a table is "5" — that doesn't mean anything yet. 5 what? 5 inches? 5 feet? 5 bananas? The number by itself isn't a measurement. A measurement is the number and the unit together: "5 inches" or "12 centimeters." The unit tells you what you were counting and the number tells you how many you counted.
 
@@ -52,15 +50,15 @@ When you write down a **measurement**, you always need two things: a *number* an
 
 In Section 0 we said that inches, feet, centimeters, and meters are all units of measurement of distance. But they aren't the only things you can measure with. You can measure with anything! You could measure a table using toilet paper squares, or your hand, or a shoe, or a toy. As long as you use the same thing every time, you'll get a consistent measurement.
 
-[picture of the same table being measured three ways: a ruler showing inches, a row of toilet paper squares, and a row of some small toy or block — each with a different number but the same table]
+![Figure_1_1_2_1](.\imgs\Chapter1\Figure_1_1_2_1.png)
 
-Here's something interesting: that table didn't change size. It's the same table every time. But we got a different number every time because we used a different unit. A table that is 3 feet long is also 36 inches long, also about 91 centimeters long, and maybe 7 of your shoes long. 4 different numbers, one table.
+The table didn't change size. It's the same table every time. But we got a different number every time because we used a different unit. A table that is 3 feet long is also 36 inches long, also about 91 centimeters long, and maybe 7 of your shoes long. 4 different numbers, one table.
 
-So if someone tells you the length of their desk is "4" and someone else says theirs is "12" — you can't tell which desk is bigger unless you know what units they used. Maybe the first person measured in feet and the second person measured in paper clips. The units matter just as much as the numbers.
+If someone tells you the length of their desk is "4" and someone else says theirs is "12", you can't tell which desk is bigger unless you know what units they used. Maybe the first person measured in feet and the second person measured in paper clips. The units matter just as much as the numbers.
 
 This is actually why standard units like inches and centimeters exist. A long time ago, people needed to agree on exactly how big their units were so they could build things together and trade fairly. If everyone measures with their own shoe, everyone's answers are a little different — and that's a problem when you're trying to build a bridge from both sides.
 
-[picture of two people measuring the same gap with different sized shoes and getting different numbers — something lighthearted]
+![Figure_1_1_2_2](.\imgs\Chapter1\Figure_1_1_2_2.png)
 
 ### Vocabulary
 
@@ -91,7 +89,7 @@ You've kind of already done this! Especially if you did the programming bonus at
 ### Section 2.1: What's a Label?
 So far, everything we've measured has been right in front of us. You put a ruler on it, read the number, done. But what if you want to tell someone about something they can't see? You could tell them "my desk is 4 feet long," but what if the thing you're describing is more complicated? 
 
-[complex schematic]
+![Figure_1_2_1_1](C:\Users\tripp.lamb\Projects\School\Link-Geometry\imgs\Chapter1\Figure_1_2_1_1.png)
 
 Trying to describe complicated shape with just words gets confusing fast. It's much easier to draw a picture and write the measurements on it. A measurement written on a drawing is called a **label**, and a drawing with labels on it is called a labeled **diagram**.
 
@@ -101,15 +99,15 @@ Labeled diagrams are everywhere. Maps, building plans, instructions for putting 
 
 ### Section 2.2: Which One Is Bigger?
 
-[a small whale and a big ant, unlabeled]
+![Figure_1_2_2_1](.\imgs\Chapter1\Figure_1_2_2_1.png)
 
 You can't draw a full-size whale on a piece of paper, but you *can* draw a small picture of a whale and write "80 feet" next to it. The drawing shows you what it looks like. The label tells you how big it really is.
 
-[picture of a tiny cartoon whale with a line and the label "80 feet"]
+![Figure_1_2_2_2](.\imgs\Chapter1\Figure_1_2_2_2.png)
 
 When a drawing is made smaller or bigger than the real thing, we say it has been **scaled**. A drawing that has been made smaller has been *scaled down*, or *shrunk*. A drawing that has been made bigger has been *scaled up*, or *stretched*. The whale diagram has been scaled down. A lot! But a diagram of something tiny, like a diagram of an ant, might be scaled up so you can actually see the details.
 
-[picture of a large detailed drawing of an ant with a label like "0.1 inches"]
+![Figure_1_2_2_3](.\imgs\Chapter1\Figure_1_2_2_3.png)
 
 Sometimes a drawing is the same size as the real thing. When that happens we say the drawing is **to scale**. Most of the time though, drawings have been scaled up or scaled down to fit on the page.
 
@@ -117,7 +115,7 @@ So if someone asks you "how big is this?", there are actually two different ques
 
 > **Example 1:** Here is a diagram of a table that is 4 feet long.
 >
-> [small rectangle labeled "4 feet"]
+> ![Figure_1_2_2_4](.\imgs\Chapter1\Figure_1_2_2_4.png)
 >
 > Let's measure the drawing on the page with a ruler. Line up the zero mark with one end of the rectangle and read the number at the other end. It measures about 2 inches on the paper. But the label says the table is 4 feet long. The drawing has been scaled down to fit on the page. The 2 inches is the size of the drawing. The 4 feet is the size of the real table.
 >
@@ -127,9 +125,7 @@ This can get tricky. Look at these two line segments and try to guess which one 
 
 > **Example 2:** Which line segment is longer?
 >
-> [a visually long line segment labeled "3 inches" also labeled with an A]
->
-> [a visually short line segment labeled "9 inches" also labeled with a B]
+> ![Figure_1_2_2_5](.\imgs\Chapter1\Figure_1_2_2_5.png)
 >
 > The drawing of segment A is bigger than the drawing of segment B. BUT! Line segment B (labeled "9 inches") describes a segment that is much longer, even if it looks shorter on the page! The first drawing has been scaled up and the second has been scaled down. Without looking at the labels drawings can mislead you!
 
@@ -143,7 +139,7 @@ The math works the same no matter what units you use. If you have 2 bananas and 
 
 > **Watch out!** You can only add measurements together when they use the same units. 2 inches + 2 inches = 4 inches works. But 2 inches + 2 centimeters doesn't just equal 4 of anything. Inches and centimeters are different sizes, so you can't combine them directly. It would be like adding 2 apples and 2 action figures. Doing that just gives you 4 things, which isn't very useful information.
 
-This is actually one reason why number lines are so useful. A number line is like a ruler that hasn't picked a unit yet. It just counts: 0, 1, 2, 3, 4... When you move from 0 to 2 on a number line, you've traveled a distance of 2. Two *what*? It doesn't matter yet. Sometimes when we have real world problems we will use units, but when the units aren't important we will often leave them off. So the answer is no, we don't always need units!
+This is actually one reason why number lines are so useful. A number line is like a ruler that hasn't picked a unit yet. It just counts: 0, 1, 2, 3, 4... When you move from 0 to 2 on a number line, you've traveled a distance of 2. Two *what*? It doesn't matter yet. Sometimes when we have real world problems we will use units, but when the units aren't important we will often leave them off. So the answer is no, if we aren't measuring real world things we don't have to use units!
 
 ### Vocabulary
 

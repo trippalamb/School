@@ -24,6 +24,8 @@ You've probably already counted distance before and not even known it. If you've
 
 **unit of measurement** - the thing you're counting when you measure a type of thing like distance, time, or even candy.
 
+___
+
 ## Section 1: "How long is a line?"
 
 This is kind of a trick question. A **line** is actually infinitely long (at least in math)! A line goes on forever in both directions. You can't measure the length of a line since you can't hold an infinite ruler! When you measure something you are actually measuring something called a **line segment**. 
@@ -36,6 +38,8 @@ A line segment connects two things called points. A point is just a specific loc
 
 In every day life people are almost never talking about infinitely long lines so people often just use the word "line" instead of "line segment" because it's easier.
 
+___
+
 ### Section 1.1: "How can we measure distance?"
 
 You've probably used a ruler before, but let's make sure we're on the same page about how they work. A ruler is just a line segment with marks on it! The marks are spaced the same distance apart and each one has a number. To measure something, you line up one end of the thing you're measuring with the zero mark on the ruler, and then you read the number at the other end.
@@ -45,6 +49,8 @@ You've probably used a ruler before, but let's make sure we're on the same page 
 Be careful — on some rulers the zero mark isn't right at the edge. Always look for where the 0 is and start there.
 
 When you write down a **measurement**, you always need two things: a *number* and a *unit*. If someone tells you a table is "5" — that doesn't mean anything yet. 5 what? 5 inches? 5 feet? 5 bananas? The number by itself isn't a measurement. A measurement is the number and the unit together: "5 inches" or "12 centimeters." The unit tells you what you were counting and the number tells you how many you counted.
+
+___
 
 ### Section 1.2: "Can you measure with toilet paper?"
 
@@ -97,6 +103,8 @@ Trying to describe complicated shape with just words gets confusing fast. It's m
 
 Labeled diagrams are everywhere. Maps, building plans, instructions for putting furniture together are all kinds of labeled diagrams. These are all used to communicate the size of something to someone else.
 
+___
+
 ### Section 2.2: Which One Is Bigger?
 
 ![Figure_1_2_2_1](.\imgs\Chapter1\Figure_1_2_2_1.png)
@@ -131,6 +139,8 @@ This can get tricky. Look at these two line segments and try to guess which one 
 
 
 
+___
+
 ### Section 2.3: Do We Always Need Units?
 
 Back in Section 1.1 we said that a measurement is always a number and a unit together. "5 inches" is a measurement. Just "5" by itself isn't. If you've ever looked at a math problem, you've probably noticed that a lot of them just use plain numbers with no units at all. What's going on?
@@ -154,5 +164,4 @@ This is actually one reason why number lines are so useful. A number line is lik
 **scaled up** — when a drawing has been stretched bigger than the real thing.
 
 **to scale** — when a drawing is the same size as the real thing.
-
 

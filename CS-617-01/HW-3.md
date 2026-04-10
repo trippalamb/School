@@ -142,8 +142,70 @@ Top-level call: `reconstructLPS(A, s, 1, n)`
 
 ### Variables
 
+```
+Employee = {
+  id:string, //identifier of employee
+  conviviality: real, //conviviality score of individual employee
+  children: Employee[], //references to employees managed by this employee
+  parent: Employee, //reference to supervisor
+  ecs_w: real = 0.0, //maximum conviviality score of subtree including this employee [default: 0.0]
+  ecs_wo: real = 0.0, //maximum conviviality score of subtree not including this employee [default: 0.0]
+  invited: bool = false //true denotes that the employee is invited
+}
+```
+
+- $S$: root employee of the complete tree
+- $e$: root employee of the current subtree
+- $\text{mcs}(e)$: the maximum conviviality score of employee $e$
+- $\text{mcs}_w(e)$: the maximum conviviality score of sub-tree with root employee $e$ explicitly including $e$ (with)
+- $\text{mcs}_{wo}(e)$: the maximum conviviality score of sub-tree with root employee $e$ explicitly not including $e$ (without)
+- $c(e)$: the conviviality score of employee $e$ exclusively
+
 ### Recurrence Relation
+
+$$ \text{mcs}*w(e) = \begin{cases} c(e) & \text{if } e \text{ has no children} \ c(e) + \displaystyle\sum*{c ,\in, e.\text{children}} \text{mcs}_{wo}(c) & \text{otherwise} \end{cases} $$
+
+$$ \text{mcs}*{wo}(e) = \begin{cases} 0 & \text{if } e \text{ has no children} \ \displaystyle\sum*{c ,\in, e.\text{children}} \max{\text{mcs}_{wo}(c),; \text{mcs}_w(c)} & \text{otherwise} \end{cases} $$
+
+$$ \text{mcs}(e) = \max{\text{mcs}*w(e),; \text{mcs}*{wo}(e)} $$
+
+$$ \text{answer} = \text{mcs}(S) $$
 
 ### Pseudocode
 
+```
+top-level: BMC(S)
+
+BMC(e) -> maximum_conviviality_score
+
+  e.ecs_w = e.conviviality
+  e.ecs_wo = 0
+
+  for c in e.children
+      
+    BMC(c)
+
+    e.ecs_w += c.ecs_wo
+    e.ecs_wo += max{c.ecs_wo, c.ecs_w}
+
+  return max{e.ecs_w, e.ecs_wo}
+```
+
+**Reconstruction:**
+
+```
+top-level call: reconstructBMC(S, S.ecs_w > S.ecs_wo)
+
+reconstructBMC(e:Employee, with:bool)
+
+  if (with)
+    print e.id
+
+  for c in e.children
+    reconstructBMC(c, !with && c.ecs_w > c.ecs_wo)
+```
+
 ### Time and Space Complexity
+
+- **Time:** $O(n)$ — each node is visited exactly once.
+- **Space:** $O(n)$ — two values stored per node, plus $O(n)$ recursion stack in the worst case.
